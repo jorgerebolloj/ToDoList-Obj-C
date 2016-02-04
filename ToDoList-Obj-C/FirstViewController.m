@@ -10,6 +10,7 @@
 #import "ToDoPendingListTableViewCell.h"
 #import "ToDoBusinessController.h"
 
+
 @interface FirstViewController ()
 
 @end
@@ -65,7 +66,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cellView;
-    ToDoPendingListTableViewCell *toDoPendingTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"ToDoPendingListViewCell" forIndexPath:indexPath];
+    ToDoPendingListTableViewCell *toDoPendingTableViewCell = (ToDoPendingListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"ToDoPendingListViewCell" forIndexPath:indexPath];
+    toDoPendingTableViewCell.leftUtilityButtons = [self leftButtons];
+    toDoPendingTableViewCell.rightUtilityButtons = [self rightButtons];
+    toDoPendingTableViewCell.delegate = self;
     SEL selector = @selector(setToDoPendingListModel:);
     if([toDoPendingTableViewCell respondsToSelector:selector]) {
         NSMutableDictionary *toDoPendingCellViewModel = [self.toDoPendingListViewModel objectAtIndex:indexPath.row];
@@ -76,6 +80,27 @@
     cellView.backgroundView = [[UIImageView alloc] init];
     cellView.selectedBackgroundView = [[UIImageView alloc] init];
     return cellView;
+}
+
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"edit64x64.png"]];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"delete64x64.png"]];
+    
+    return rightUtilityButtons;
+}
+
+- (NSArray *)leftButtons
+{
+    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
+    
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"email64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"sms64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"facebook64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"twitter64x64.png"]];
+    
+    return leftUtilityButtons;
 }
 
 #pragma mark UITable Delegate

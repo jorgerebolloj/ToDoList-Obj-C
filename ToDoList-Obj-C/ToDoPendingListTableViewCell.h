@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SWTableViewCell.h>
 
-@interface ToDoPendingListTableViewCell : UITableViewCell
+@interface ToDoPendingListTableViewCell : SWTableViewCell
 
 - (void)setToDoPendingListModel:(NSMutableDictionary *)toDoPendingListInfo;
 
