@@ -121,8 +121,15 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0:
+        {
             NSLog(@"Edit button was pressed");
+            NSIndexPath *cellIndexPath = [self.toDoPendingListTable indexPathForCell:cell];
+             NSMutableDictionary *toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+            ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+            [toDoBusiness setExitingItem:toDoPendingCellViewModel withSelecteRow:cellIndexPath.row];
+            [self performSegueWithIdentifier:@"singleToDoViewSegue" sender:self];
             break;
+        }
         case 1:
         {
             NSLog(@"Delete button was pressed");

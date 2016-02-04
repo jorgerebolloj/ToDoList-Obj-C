@@ -50,4 +50,17 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)editExistingItem:(NSMutableDictionary *)existingItem {
+    NSMutableArray *existingToDoPendingList = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    [existingToDoPendingList replaceObjectAtIndex:self.currentItemRow withObject:existingItem];
+    existingToDoPendingList = [self setDate:existingToDoPendingList];
+    [[NSUserDefaults standardUserDefaults] setObject:existingToDoPendingList forKey:@"toDoPendingList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setExitingItem:(NSMutableDictionary *)existingItem withSelecteRow:(NSUInteger *)currentSelectedRow {
+    self.existingItem = existingItem;
+    self.currentItemRow = currentSelectedRow;
+}
+
 @end

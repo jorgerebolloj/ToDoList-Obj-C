@@ -100,7 +100,7 @@
                     <navigationItem key="navigationItem" title="My pending TODOs" id="3MD-hj-7OV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Oyv-u4-tvL">
                             <connections>
-                                <segue destination="n9P-gH-Z2y" kind="show" id="qKq-ty-yh3"/>
+                                <segue destination="n9P-gH-Z2y" kind="show" identifier="singleToDoViewSegue" id="qKq-ty-yh3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
