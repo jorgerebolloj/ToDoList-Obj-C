@@ -28,6 +28,8 @@
 		30FCF5D21C630C6A00F17871 /* delete512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C71C630C6A00F17871 /* delete512x512.png */; };
 		30FCF5D51C631BEA00F17871 /* taskPending32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5D31C631BEA00F17871 /* taskPending32x32.png */; };
 		30FCF5D61C631BEA00F17871 /* taskCompleted32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5D41C631BEA00F17871 /* taskCompleted32x32.png */; };
+		30FCF5DB1C63376400F17871 /* ToDoCompletedListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5DA1C63376400F17871 /* ToDoCompletedListTableViewCell.m */; };
+		30FCF5DE1C633DFE00F17871 /* ToDoBusinessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5DD1C633DFE00F17871 /* ToDoBusinessController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,10 @@
 		30FCF5C71C630C6A00F17871 /* delete512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete512x512.png; path = Resources/delete512x512.png; sourceTree = SOURCE_ROOT; };
 		30FCF5D31C631BEA00F17871 /* taskPending32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taskPending32x32.png; path = Resources/taskPending32x32.png; sourceTree = SOURCE_ROOT; };
 		30FCF5D41C631BEA00F17871 /* taskCompleted32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taskCompleted32x32.png; path = Resources/taskCompleted32x32.png; sourceTree = SOURCE_ROOT; };
+		30FCF5D91C63376400F17871 /* ToDoCompletedListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoCompletedListTableViewCell.h; sourceTree = "<group>"; };
+		30FCF5DA1C63376400F17871 /* ToDoCompletedListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoCompletedListTableViewCell.m; sourceTree = "<group>"; };
+		30FCF5DC1C633DFE00F17871 /* ToDoBusinessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoBusinessController.h; sourceTree = "<group>"; };
+		30FCF5DD1C633DFE00F17871 /* ToDoBusinessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoBusinessController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,8 @@
 		30FCF5B41C62F4E400F17871 /* BusinessControllers */ = {
 			isa = PBXGroup;
 			children = (
+				30FCF5DC1C633DFE00F17871 /* ToDoBusinessController.h */,
+				30FCF5DD1C633DFE00F17871 /* ToDoBusinessController.m */,
 			);
 			name = BusinessControllers;
 			sourceTree = "<group>";
@@ -160,6 +168,8 @@
 		30FCF5B81C62F57300F17871 /* Artifacts */ = {
 			isa = PBXGroup;
 			children = (
+				30FCF5D91C63376400F17871 /* ToDoCompletedListTableViewCell.h */,
+				30FCF5DA1C63376400F17871 /* ToDoCompletedListTableViewCell.m */,
 			);
 			name = Artifacts;
 			sourceTree = "<group>";
@@ -267,11 +277,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30FCF5DB1C63376400F17871 /* ToDoCompletedListTableViewCell.m in Sources */,
 				30FCF5A41C62CD7000F17871 /* SecondViewController.m in Sources */,
 				30FCF59E1C62CD7000F17871 /* AppDelegate.m in Sources */,
 				30FCF5BB1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m in Sources */,
 				30FCF5A11C62CD7000F17871 /* FirstViewController.m in Sources */,
 				30FCF59B1C62CD7000F17871 /* main.m in Sources */,
+				30FCF5DE1C633DFE00F17871 /* ToDoBusinessController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +432,7 @@
 				30FCF5B21C62CD7000F17871 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
