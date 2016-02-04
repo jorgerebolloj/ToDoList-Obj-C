@@ -40,14 +40,23 @@
                                                                          @"image"    : @"image512x512.png",
                                                                          },
                                                                      ]];
-    ToDoBusinessController *toDoBusinessInstance = [[ToDoBusinessController alloc] init];
-    self.toDoCompletedListViewModel = [toDoBusinessInstance setDate:self.toDoCompletedListViewModel];
-    self.dateString = [toDoBusinessInstance dateTimeConfiguration];
+    if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"])
+        self.toDoCompletedListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
+    else {
+        [[NSUserDefaults standardUserDefaults] setObject:self.toDoCompletedListViewModel forKey:@"toDoCompletedList"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self.toDoCompletedListTable reloadData];
 }
 
 #pragma mark UITableViewDataSource

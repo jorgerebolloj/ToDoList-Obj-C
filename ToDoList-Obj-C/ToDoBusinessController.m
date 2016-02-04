@@ -10,6 +10,23 @@
 
 @implementation ToDoBusinessController
 
++ (ToDoBusinessController *)sharedInstance {
+    static dispatch_once_t onceToken;
+    static ToDoBusinessController *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[ToDoBusinessController alloc] init];
+    });
+    return instance;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (NSString *)dateTimeConfiguration {
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -24,6 +41,13 @@
     pendingTasks = [[pendingTasks sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]] mutableCopy];
     NSMutableArray *pendingTasksSorted = pendingTasks;
     return pendingTasksSorted;
+}
+
+- (void)storeNewItem:(NSMutableDictionary *)newItem {
+    NSMutableArray *storedToDoPendingList = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    [storedToDoPendingList addObject:newItem];
+    [[NSUserDefaults standardUserDefaults] setObject:storedToDoPendingList forKey:@"toDoPendingList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

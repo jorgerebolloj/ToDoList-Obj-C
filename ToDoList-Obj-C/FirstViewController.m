@@ -16,38 +16,46 @@
 
 @implementation FirstViewController
 
++ (FirstViewController *)sharedInstance {
+    static dispatch_once_t onceToken;
+    static FirstViewController *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[FirstViewController alloc] init];
+    });
+    return instance;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        _toDoPendingListViewModel = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.toDoPendingListTable setDelegate:self];
     [self.toDoPendingListTable setDataSource:self];
-    self.toDoPendingListViewModel = [NSMutableArray arrayWithArray:@[
-                                                              @{
-                                                                  @"title"      : @"Buy milk",
-                                                                  @"modifiedDate" : @"2016/01/14 02:45 AM",
-                                                                  @"status"    : @0,
-                                                                  @"image"    : @"image512x512.png",
-                                                                  },
-                                                              @{
-                                                                  @"title"      : @"Learn Swift",
-                                                                  @"modifiedDate" : @"2016/01/11 02:45 AM",
-                                                                  @"status"    : @0,
-                                                                  @"image"    : @"image512x512.png",
-                                                                  },
-                                                              @{
-                                                                  @"title"      : @"Play violin",
-                                                                  @"modifiedDate" : @"2016/01/12 02:45 AM",
-                                                                  @"status"    : @0,
-                                                                  @"image"    : @"image512x512.png",
-                                                                  },
-                                                              ]];
-    ToDoBusinessController *toDoBusinessInstance = [[ToDoBusinessController alloc] init];
-    self.toDoPendingListViewModel = [toDoBusinessInstance setDate:self.toDoPendingListViewModel];
-    self.dateString = [toDoBusinessInstance dateTimeConfiguration];
+    self.toDoPendingListViewModel = [[NSMutableArray alloc]init];
+    if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"])
+        self.toDoPendingListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    else {
+        [[NSUserDefaults standardUserDefaults] setObject:self.toDoPendingListViewModel forKey:@"toDoPendingList"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.toDoPendingListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    [self.toDoPendingListTable reloadData];
 }
 
 #pragma mark UITableViewDataSource
@@ -68,6 +76,11 @@
     cellView.backgroundView = [[UIImageView alloc] init];
     cellView.selectedBackgroundView = [[UIImageView alloc] init];
     return cellView;
+}
+
+#pragma mark UITable Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 @end

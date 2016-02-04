@@ -12,5 +12,8 @@
 
 - (NSString *)dateTimeConfiguration;
 - (NSMutableArray *)setDate:(NSMutableArray *)pendingTasks;
+- (void)storeNewItem:(NSMutableDictionary *)newItem;
+
++ (ToDoBusinessController *)sharedInstance;
 
 @end

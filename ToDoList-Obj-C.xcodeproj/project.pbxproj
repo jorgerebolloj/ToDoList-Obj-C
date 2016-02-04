@@ -30,6 +30,7 @@
 		30FCF5D61C631BEA00F17871 /* taskCompleted32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5D41C631BEA00F17871 /* taskCompleted32x32.png */; };
 		30FCF5DB1C63376400F17871 /* ToDoCompletedListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5DA1C63376400F17871 /* ToDoCompletedListTableViewCell.m */; };
 		30FCF5DE1C633DFE00F17871 /* ToDoBusinessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5DD1C633DFE00F17871 /* ToDoBusinessController.m */; };
+		30FCF5E71C6362C400F17871 /* NewItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5E61C6362C400F17871 /* NewItemViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,8 @@
 		30FCF5DA1C63376400F17871 /* ToDoCompletedListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoCompletedListTableViewCell.m; sourceTree = "<group>"; };
 		30FCF5DC1C633DFE00F17871 /* ToDoBusinessController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoBusinessController.h; sourceTree = "<group>"; };
 		30FCF5DD1C633DFE00F17871 /* ToDoBusinessController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoBusinessController.m; sourceTree = "<group>"; };
+		30FCF5E51C6362C400F17871 /* NewItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewItemViewController.h; sourceTree = "<group>"; };
+		30FCF5E61C6362C400F17871 /* NewItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewItemViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,7 @@
 		30FCF5B31C62F4D700F17871 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				30FCF5E11C63623000F17871 /* NewItemView */,
 				30FCF5B51C62F4F200F17871 /* PendingListView */,
 				30FCF5B71C62F51E00F17871 /* CompletedListView */,
 			);
@@ -192,6 +196,15 @@
 				30FCF5C71C630C6A00F17871 /* delete512x512.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		30FCF5E11C63623000F17871 /* NewItemView */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF5E51C6362C400F17871 /* NewItemViewController.h */,
+				30FCF5E61C6362C400F17871 /* NewItemViewController.m */,
+			);
+			name = NewItemView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,6 +292,7 @@
 			files = (
 				30FCF5DB1C63376400F17871 /* ToDoCompletedListTableViewCell.m in Sources */,
 				30FCF5A41C62CD7000F17871 /* SecondViewController.m in Sources */,
+				30FCF5E71C6362C400F17871 /* NewItemViewController.m in Sources */,
 				30FCF59E1C62CD7000F17871 /* AppDelegate.m in Sources */,
 				30FCF5BB1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m in Sources */,
 				30FCF5A11C62CD7000F17871 /* FirstViewController.m in Sources */,
