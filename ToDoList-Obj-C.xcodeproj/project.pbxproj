@@ -14,6 +14,20 @@
 		30FCF5A71C62CD7000F17871 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5A51C62CD7000F17871 /* Main.storyboard */; };
 		30FCF5A91C62CD7000F17871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5A81C62CD7000F17871 /* Assets.xcassets */; };
 		30FCF5AC1C62CD7000F17871 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5AA1C62CD7000F17871 /* LaunchScreen.storyboard */; };
+		30FCF5BB1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5BA1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m */; };
+		30FCF5C81C630C6A00F17871 /* twitter512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5BD1C630C6A00F17871 /* twitter512x512.png */; };
+		30FCF5C91C630C6A00F17871 /* taskPending512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5BE1C630C6A00F17871 /* taskPending512x512.png */; };
+		30FCF5CA1C630C6A00F17871 /* taskCompleted512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5BF1C630C6A00F17871 /* taskCompleted512x512.png */; };
+		30FCF5CB1C630C6A00F17871 /* sms512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C01C630C6A00F17871 /* sms512x512.png */; };
+		30FCF5CC1C630C6A00F17871 /* search512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C11C630C6A00F17871 /* search512x512.png */; };
+		30FCF5CD1C630C6A00F17871 /* new512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C21C630C6A00F17871 /* new512x512.png */; };
+		30FCF5CE1C630C6A00F17871 /* image512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C31C630C6A00F17871 /* image512x512.png */; };
+		30FCF5CF1C630C6A00F17871 /* facebook512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C41C630C6A00F17871 /* facebook512x512.png */; };
+		30FCF5D01C630C6A00F17871 /* email512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C51C630C6A00F17871 /* email512x512.png */; };
+		30FCF5D11C630C6A00F17871 /* edit512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C61C630C6A00F17871 /* edit512x512.png */; };
+		30FCF5D21C630C6A00F17871 /* delete512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5C71C630C6A00F17871 /* delete512x512.png */; };
+		30FCF5D51C631BEA00F17871 /* taskPending32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5D31C631BEA00F17871 /* taskPending32x32.png */; };
+		30FCF5D61C631BEA00F17871 /* taskCompleted32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FCF5D41C631BEA00F17871 /* taskCompleted32x32.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +43,21 @@
 		30FCF5A81C62CD7000F17871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30FCF5AB1C62CD7000F17871 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		30FCF5AD1C62CD7000F17871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		30FCF5B91C62F5DF00F17871 /* ToDoPendingListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoPendingListTableViewCell.h; sourceTree = "<group>"; };
+		30FCF5BA1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoPendingListTableViewCell.m; sourceTree = "<group>"; };
+		30FCF5BD1C630C6A00F17871 /* twitter512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitter512x512.png; path = Resources/twitter512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5BE1C630C6A00F17871 /* taskPending512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taskPending512x512.png; path = Resources/taskPending512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5BF1C630C6A00F17871 /* taskCompleted512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taskCompleted512x512.png; path = Resources/taskCompleted512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C01C630C6A00F17871 /* sms512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sms512x512.png; path = Resources/sms512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C11C630C6A00F17871 /* search512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = search512x512.png; path = Resources/search512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C21C630C6A00F17871 /* new512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = new512x512.png; path = Resources/new512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C31C630C6A00F17871 /* image512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image512x512.png; path = Resources/image512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C41C630C6A00F17871 /* facebook512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = facebook512x512.png; path = Resources/facebook512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C51C630C6A00F17871 /* email512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = email512x512.png; path = Resources/email512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C61C630C6A00F17871 /* edit512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = edit512x512.png; path = Resources/edit512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5C71C630C6A00F17871 /* delete512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete512x512.png; path = Resources/delete512x512.png; sourceTree = SOURCE_ROOT; };
+		30FCF5D31C631BEA00F17871 /* taskPending32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taskPending32x32.png; path = Resources/taskPending32x32.png; sourceTree = SOURCE_ROOT; };
+		30FCF5D41C631BEA00F17871 /* taskCompleted32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = taskCompleted32x32.png; path = Resources/taskCompleted32x32.png; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,12 +90,11 @@
 		30FCF5981C62CD7000F17871 /* ToDoList-Obj-C */ = {
 			isa = PBXGroup;
 			children = (
+				30FCF5BC1C63051F00F17871 /* Resources */,
+				30FCF5B41C62F4E400F17871 /* BusinessControllers */,
+				30FCF5B31C62F4D700F17871 /* ViewControllers */,
 				30FCF59C1C62CD7000F17871 /* AppDelegate.h */,
 				30FCF59D1C62CD7000F17871 /* AppDelegate.m */,
-				30FCF59F1C62CD7000F17871 /* FirstViewController.h */,
-				30FCF5A01C62CD7000F17871 /* FirstViewController.m */,
-				30FCF5A21C62CD7000F17871 /* SecondViewController.h */,
-				30FCF5A31C62CD7000F17871 /* SecondViewController.m */,
 				30FCF5A51C62CD7000F17871 /* Main.storyboard */,
 				30FCF5A81C62CD7000F17871 /* Assets.xcassets */,
 				30FCF5AA1C62CD7000F17871 /* LaunchScreen.storyboard */,
@@ -82,6 +110,78 @@
 				30FCF59A1C62CD7000F17871 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		30FCF5B31C62F4D700F17871 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF5B51C62F4F200F17871 /* PendingListView */,
+				30FCF5B71C62F51E00F17871 /* CompletedListView */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		30FCF5B41C62F4E400F17871 /* BusinessControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BusinessControllers;
+			sourceTree = "<group>";
+		};
+		30FCF5B51C62F4F200F17871 /* PendingListView */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF5B61C62F50900F17871 /* Artifacts */,
+				30FCF59F1C62CD7000F17871 /* FirstViewController.h */,
+				30FCF5A01C62CD7000F17871 /* FirstViewController.m */,
+			);
+			name = PendingListView;
+			sourceTree = "<group>";
+		};
+		30FCF5B61C62F50900F17871 /* Artifacts */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF5B91C62F5DF00F17871 /* ToDoPendingListTableViewCell.h */,
+				30FCF5BA1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m */,
+			);
+			name = Artifacts;
+			sourceTree = "<group>";
+		};
+		30FCF5B71C62F51E00F17871 /* CompletedListView */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF5B81C62F57300F17871 /* Artifacts */,
+				30FCF5A21C62CD7000F17871 /* SecondViewController.h */,
+				30FCF5A31C62CD7000F17871 /* SecondViewController.m */,
+			);
+			name = CompletedListView;
+			sourceTree = "<group>";
+		};
+		30FCF5B81C62F57300F17871 /* Artifacts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Artifacts;
+			sourceTree = "<group>";
+		};
+		30FCF5BC1C63051F00F17871 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				30FCF5D31C631BEA00F17871 /* taskPending32x32.png */,
+				30FCF5D41C631BEA00F17871 /* taskCompleted32x32.png */,
+				30FCF5BD1C630C6A00F17871 /* twitter512x512.png */,
+				30FCF5BE1C630C6A00F17871 /* taskPending512x512.png */,
+				30FCF5BF1C630C6A00F17871 /* taskCompleted512x512.png */,
+				30FCF5C01C630C6A00F17871 /* sms512x512.png */,
+				30FCF5C11C630C6A00F17871 /* search512x512.png */,
+				30FCF5C21C630C6A00F17871 /* new512x512.png */,
+				30FCF5C31C630C6A00F17871 /* image512x512.png */,
+				30FCF5C41C630C6A00F17871 /* facebook512x512.png */,
+				30FCF5C51C630C6A00F17871 /* email512x512.png */,
+				30FCF5C61C630C6A00F17871 /* edit512x512.png */,
+				30FCF5C71C630C6A00F17871 /* delete512x512.png */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,9 +241,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30FCF5CD1C630C6A00F17871 /* new512x512.png in Resources */,
+				30FCF5D21C630C6A00F17871 /* delete512x512.png in Resources */,
+				30FCF5C81C630C6A00F17871 /* twitter512x512.png in Resources */,
+				30FCF5C91C630C6A00F17871 /* taskPending512x512.png in Resources */,
+				30FCF5D01C630C6A00F17871 /* email512x512.png in Resources */,
+				30FCF5CF1C630C6A00F17871 /* facebook512x512.png in Resources */,
+				30FCF5CC1C630C6A00F17871 /* search512x512.png in Resources */,
+				30FCF5D11C630C6A00F17871 /* edit512x512.png in Resources */,
+				30FCF5CE1C630C6A00F17871 /* image512x512.png in Resources */,
 				30FCF5AC1C62CD7000F17871 /* LaunchScreen.storyboard in Resources */,
 				30FCF5A91C62CD7000F17871 /* Assets.xcassets in Resources */,
+				30FCF5D61C631BEA00F17871 /* taskCompleted32x32.png in Resources */,
 				30FCF5A71C62CD7000F17871 /* Main.storyboard in Resources */,
+				30FCF5CB1C630C6A00F17871 /* sms512x512.png in Resources */,
+				30FCF5D51C631BEA00F17871 /* taskPending32x32.png in Resources */,
+				30FCF5CA1C630C6A00F17871 /* taskCompleted512x512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +269,7 @@
 			files = (
 				30FCF5A41C62CD7000F17871 /* SecondViewController.m in Sources */,
 				30FCF59E1C62CD7000F17871 /* AppDelegate.m in Sources */,
+				30FCF5BB1C62F5DF00F17871 /* ToDoPendingListTableViewCell.m in Sources */,
 				30FCF5A11C62CD7000F17871 /* FirstViewController.m in Sources */,
 				30FCF59B1C62CD7000F17871 /* main.m in Sources */,
 			);
