@@ -28,8 +28,8 @@
         [self.statusItemButton setBackgroundImage:pendingBtnImage forState:UIControlStateSelected];
     [self.itemTitleLabel setText: [[self.toDoPendingModel valueForKeyPath:@"title"] description]];
     [self.dateItemLabel setText: [NSString stringWithFormat:@"Modified: %@",[[self.toDoPendingModel valueForKeyPath:@"modifiedDate"] description]]];
-    if ([[[self.toDoPendingModel valueForKeyPath:@"modifiedDate"] description] isEqualToString:@""])
-        self.imageItemImage.image = [UIImage imageNamed:@"someimage.png"];
+    if ([[[self.toDoPendingModel valueForKeyPath:@"image"] description] isEqualToString:@""])
+        self.imageItemImage.image = [UIImage imageNamed:@"image512x512.png"];
 }
 
 @end

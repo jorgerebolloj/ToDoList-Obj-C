@@ -12,7 +12,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoPendingListTable;
 @property (nonatomic, strong) NSMutableArray *toDoPendingListViewModel;
-@property (nonatomic, strong) NSString *dateString;
+
++ (FirstViewController *)sharedInstance;
 
 @end
 

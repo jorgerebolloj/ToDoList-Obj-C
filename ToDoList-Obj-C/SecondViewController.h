@@ -12,7 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoCompletedListTable;
 @property (nonatomic, strong) NSMutableArray *toDoCompletedListViewModel;
-@property (nonatomic, strong) NSString *dateString;
 
 
 @end
