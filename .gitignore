@@ -1,3 +1,11 @@
+#Ignore generals
+.idea
+xcuserdata/
+xcshareddata/
+*.DS_Store
+*/Pods/
+*Podfile.lock
+*.orig
 
 # Created by https://www.gitignore.io/api/osx,xcode,objective-c
 
