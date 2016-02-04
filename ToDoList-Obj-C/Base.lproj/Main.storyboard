@@ -100,7 +100,7 @@
                     <navigationItem key="navigationItem" title="My pending TODOs" id="3MD-hj-7OV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Oyv-u4-tvL">
                             <connections>
-                                <segue destination="n9P-gH-Z2y" kind="show" id="qKq-ty-yh3"/>
+                                <segue destination="n9P-gH-Z2y" kind="show" identifier="singleToDoViewSegue" id="qKq-ty-yh3"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -243,14 +243,6 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image512x512.png" translatesAutoresizingMaskIntoConstraints="NO" id="26d-MF-1jr">
-                                                    <rect key="frame" x="248" y="8" width="64" height="64"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="4WZ-W9-8t6"/>
-                                                        <constraint firstAttribute="height" constant="64" id="ROG-cZ-cmz"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EH5-xk-Q46">
                                                     <rect key="frame" x="8" y="8" width="64" height="64"/>
                                                     <animations/>
@@ -267,6 +259,14 @@
                                                     <color key="textColor" red="0.1450980392" green="0.30980392159999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image512x512.png" translatesAutoresizingMaskIntoConstraints="NO" id="26d-MF-1jr">
+                                                    <rect key="frame" x="248" y="8" width="64" height="64"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="64" id="4WZ-W9-8t6"/>
+                                                        <constraint firstAttribute="height" constant="64" id="ROG-cZ-cmz"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <animations/>
                                             <constraints>

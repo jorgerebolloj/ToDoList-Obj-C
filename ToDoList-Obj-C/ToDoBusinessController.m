@@ -30,7 +30,7 @@
 - (NSString *)dateTimeConfiguration {
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy/MM/dd hh:mm a"];
+    [formatter setDateFormat:@"yyyy/MM/dd HH:mm"];
     NSString *timeString = [formatter stringFromDate:date];
     return timeString;
 }
@@ -48,6 +48,19 @@
     [storedToDoPendingList addObject:newItem];
     [[NSUserDefaults standardUserDefaults] setObject:storedToDoPendingList forKey:@"toDoPendingList"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)editExistingItem:(NSMutableDictionary *)existingItem {
+    NSMutableArray *existingToDoPendingList = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    [existingToDoPendingList replaceObjectAtIndex:self.currentItemRow withObject:existingItem];
+    existingToDoPendingList = [self setDate:existingToDoPendingList];
+    [[NSUserDefaults standardUserDefaults] setObject:existingToDoPendingList forKey:@"toDoPendingList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setExitingItem:(NSMutableDictionary *)existingItem withSelecteRow:(NSUInteger *)currentSelectedRow {
+    self.existingItem = existingItem;
+    self.currentItemRow = currentSelectedRow;
 }
 
 @end
