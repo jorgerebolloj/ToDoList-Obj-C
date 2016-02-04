@@ -8,6 +8,7 @@
 
 #import "FirstViewController.h"
 #import "ToDoPendingListTableViewCell.h"
+#import "ToDoBusinessController.h"
 
 @interface FirstViewController ()
 
@@ -22,23 +23,26 @@
     self.toDoPendingListViewModel = [NSMutableArray arrayWithArray:@[
                                                               @{
                                                                   @"title"      : @"Buy milk",
-                                                                  @"modifiedDate" : @"12/02/2016",
+                                                                  @"modifiedDate" : @"2016/01/14 02:45 AM",
                                                                   @"status"    : @0,
                                                                   @"image"    : @"image512x512.png",
                                                                   },
                                                               @{
                                                                   @"title"      : @"Learn Swift",
-                                                                  @"modifiedDate" : @"12/02/2016",
+                                                                  @"modifiedDate" : @"2016/01/11 02:45 AM",
                                                                   @"status"    : @0,
                                                                   @"image"    : @"image512x512.png",
                                                                   },
                                                               @{
                                                                   @"title"      : @"Play violin",
-                                                                  @"modifiedDate" : @"12/02/2016",
+                                                                  @"modifiedDate" : @"2016/01/12 02:45 AM",
                                                                   @"status"    : @0,
                                                                   @"image"    : @"image512x512.png",
                                                                   },
                                                               ]];
+    ToDoBusinessController *toDoBusinessInstance = [[ToDoBusinessController alloc] init];
+    self.toDoPendingListViewModel = [toDoBusinessInstance setDate:self.toDoPendingListViewModel];
+    self.dateString = [toDoBusinessInstance dateTimeConfiguration];
 }
 
 - (void)didReceiveMemoryWarning {
