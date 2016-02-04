@@ -75,15 +75,17 @@
     [self.toDoNewItem setObject:@"image512x512.png" forKey:@"image"];
     if (![self.toDoTitleTextField.text isEqualToString:@""] && ![self.dateString isEqualToString:@""]) {
         ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-        if ([[toDoBusiness.existingItem allKeys] count] == 0)
+        if ([[toDoBusiness.existingItem allKeys] count] == 0) {
             [toDoBusiness storeNewItem:self.toDoNewItem];
-        else
+            [self.toDoTitleTextField resignFirstResponder];
+            [self.toDoDescriptionTextField resignFirstResponder];
+            [self.toDoTitleTextField setText: @""];
+            [self.toDoDescriptionTextField setText: @""];
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
             [toDoBusiness editExistingItem:self.toDoNewItem];
-        [self.toDoTitleTextField resignFirstResponder];
-        [self.toDoDescriptionTextField resignFirstResponder];
-        [self.toDoTitleTextField setText: @""];
-        [self.toDoDescriptionTextField setText: @""];
-        [self.navigationController popViewControllerAnimated:YES];
+            [self backAction];
+        }
     }
 }
 
