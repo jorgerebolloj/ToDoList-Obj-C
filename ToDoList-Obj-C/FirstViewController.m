@@ -43,19 +43,15 @@
     [self.toDoPendingListTable setDataSource:self];
     
     self.toDoPendingListViewModel = [[NSMutableArray alloc]init];
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"]) {
-        ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
         self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
         self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
-        [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
-    } else {
-        ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-        [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
     }
+    [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
     
     self.filteredModel = [[NSMutableArray alloc] init];
     //[self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
-    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardShown:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -67,6 +63,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
+    self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
     [self.toDoPendingListTable reloadData];
 }
 
@@ -107,6 +104,10 @@
         [toDoPendingTableViewCell setToDoPendingListModel:toDoPendingCellViewModel];
     }
     
+    toDoPendingTableViewCell.completeToDoBtn.tag = indexPath.row;
+    [toDoPendingTableViewCell.completeToDoBtn addTarget:self action:@selector(pendingButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+    
     UITableViewCell *cellView;
     cellView = toDoPendingTableViewCell;
     cellView.backgroundColor = [UIColor clearColor];
@@ -115,17 +116,48 @@
     return cellView;
 }
 
+- (void)pendingButtonClicked:(UIButton*)sender {
+    NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
+    int toDoId = 0;
+    if ([self.filteredModel count] != 0) {
+        toDoPendingCellViewModel = [[self.filteredModel objectAtIndex:sender.tag] mutableCopy];
+        [self.filteredModel removeAllObjects];
+    } else
+        toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:sender.tag] mutableCopy];
+    
+    toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"]intValue];
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    [toDoBusiness completeToDo:self.toDoPendingListViewModel[toDoId]];
+    
+    [self.toDoPendingListViewModel removeObjectAtIndex:toDoId];
+    [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
+    self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
+    self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
+    [self.toDoPendingListTable reloadData];
+}
+
+
+#pragma mark UITable Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+- (IBAction)toDoNewItemBtn_Cmd:(id)sender {
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    toDoBusiness.originList = @"PlaningList";
+    [self performSegueWithIdentifier:@"singleToDoViewSegue" sender:self];
+}
+
 #pragma mark - UISearchBarDelegate
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self.mSearchBar setShowsCancelButton:YES animated:YES];
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     [self.mSearchBar setShowsCancelButton:NO animated:YES];
     searchBar.text = @"";
 }
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length == 0) {
         [self.filteredModel removeAllObjects];
@@ -199,15 +231,15 @@
             NSIndexPath *cellIndexPath = [self.toDoPendingListTable indexPathForCell:cell];
             NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
             int toDoId = 0;
-            if ([self.filteredModel count] != 0)
+            if ([self.filteredModel count] != 0) {
                 toDoPendingCellViewModel = [[self.filteredModel objectAtIndex:cellIndexPath.row] mutableCopy];
-            else
+                [self.filteredModel removeAllObjects];
+            } else
                 toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
             
             toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"]intValue];
             ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-            [toDoBusiness setExitingItemToEdit:self.toDoPendingListViewModel withSelecteRow:toDoId];
-            [self.filteredModel removeAllObjects];
+            [toDoBusiness setExistingPendingItemToEditWithSelecteRow:toDoId andOriginList:@"PlaningList"];
             [self performSegueWithIdentifier:@"singleToDoViewSegue" sender:self];
             break;
         }
@@ -220,16 +252,15 @@
             if ([self.filteredModel count] != 0) {
                 toDoPendingCellViewModel = [[self.filteredModel objectAtIndex:cellIndexPath.row] mutableCopy];
                 [self.filteredModel removeAllObjects];
-            } else 
+            } else
                 toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
             
             toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"] intValue];
             [self.toDoPendingListViewModel removeObjectAtIndex:toDoId];
-            [self.toDoPendingListTable deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.filteredModel removeAllObjects];
-            [[NSUserDefaults standardUserDefaults] setObject:self.toDoPendingListViewModel forKey:@"toDoPendingList"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            self.toDoPendingListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+            ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+            [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
+            self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
+            self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
             [self.toDoPendingListTable reloadData];
             break;
         }
@@ -245,15 +276,11 @@
 
 // prevent multiple cells from showing utilty buttons simultaneously
 /*- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
-}
+ }
+ 
+ // prevent cell(s) from displaying left/right utility buttons
+ - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
+ }*/
 
-// prevent cell(s) from displaying left/right utility buttons
-- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
-}*/
-
-#pragma mark UITable Delegate
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
 
 @end

@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoCompletedListTable;
 @property (nonatomic, strong) NSMutableArray *toDoCompletedListViewModel;
+@property (weak, nonatomic) IBOutlet UISearchBar *mSearchBar2;
+@property (strong, nonatomic) NSMutableArray *filteredModel2;
 
 
 @end

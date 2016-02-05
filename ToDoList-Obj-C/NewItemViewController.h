@@ -17,7 +17,8 @@
 @property (nonatomic, strong) NSString *dateString;
 @property(nonatomic, strong) UITapGestureRecognizer *gestureRecognizer;
 @property (strong, nonatomic) IBOutlet UIView *toDoNewItemView;
-@property (strong, nonatomic)   NSMutableDictionary *toDoExistingItem;
+@property (strong, nonatomic)   NSMutableDictionary *toDoExistingPlaningItem;
+@property (strong, nonatomic)   NSMutableDictionary *toDoExistingCompletedItem;
 
 - (IBAction)toDoAddImageBtn:(id)sender;
 - (IBAction)toDoStoreNewItemBtn:(id)sender;

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSMutableArray *toDoPendingListViewModel;
 @property (weak, nonatomic) IBOutlet UISearchBar *mSearchBar;
 @property (strong, nonatomic) NSMutableArray *filteredModel;
+- (IBAction)toDoNewItemBtn_Cmd:(id)sender;
 
 + (FirstViewController *)sharedInstance;
 

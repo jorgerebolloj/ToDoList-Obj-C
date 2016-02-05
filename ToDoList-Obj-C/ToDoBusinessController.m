@@ -15,7 +15,8 @@ id getMutableElement(id element)
                                                                    kCFPropertyListMutableContainersAndLeaves));
 }
 
-int currentItemRow = 0;
+int currentPlaningItemRow = 0;
+int currentCompletedItemRow = 0;
 
 @implementation ToDoBusinessController
 
@@ -41,9 +42,19 @@ int currentItemRow = 0;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)storeCompletedModel:(NSMutableArray *)completedModel {
+    [[NSUserDefaults standardUserDefaults] setObject:completedModel forKey:@"toDoCompletedList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (NSMutableArray *)requestPendingModel {
     NSMutableArray *pendingModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
     return pendingModel;
+}
+
+- (NSMutableArray *)requestCompletedModel {
+    NSMutableArray *completedModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
+    return completedModel;
 }
 
 - (NSString *)dateTimeConfiguration {
@@ -60,7 +71,7 @@ int currentItemRow = 0;
     pendingTasks = [[pendingTasks sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]]mutableCopy];
     NSMutableArray *pendingTasksM = [[NSMutableArray alloc]init];
     for (NSDictionary *item in pendingTasks)
-            [pendingTasksM addObject:[item mutableCopy]];
+        [pendingTasksM addObject:[item mutableCopy]];
     for (int i=0; i < [pendingTasksM count]; i++)
         [pendingTasksM[i] setObject:@(i) forKey:@"id"];
     NSMutableArray *pendingTasksSorted = pendingTasksM;
@@ -68,24 +79,45 @@ int currentItemRow = 0;
 }
 
 - (void)storeNewItem:(NSMutableDictionary *)newItem {
-    NSMutableArray *storedToDoPendingList = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    NSMutableArray *storedToDoPendingList = [[self requestPendingModel] mutableCopy];
     [storedToDoPendingList addObject:newItem];
-    [[NSUserDefaults standardUserDefaults] setObject:storedToDoPendingList forKey:@"toDoPendingList"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    storedToDoPendingList = [self setDate:storedToDoPendingList];
+    [self storePendingModel:storedToDoPendingList];
 }
 
-- (void)editExistingItem:(NSMutableDictionary *)updateExistingItem {
-    NSMutableArray *existingToDoPendingList = [self.pendingTasks mutableCopy];
-    [existingToDoPendingList replaceObjectAtIndex:currentItemRow withObject:updateExistingItem];
+- (void)completeToDo:(NSMutableDictionary *)newItem {
+    NSMutableArray *storedToDoCompleteList = [[self requestCompletedModel] mutableCopy];
+    [storedToDoCompleteList addObject:newItem];
+    storedToDoCompleteList = [self setDate:storedToDoCompleteList];
+    [self storeCompletedModel:storedToDoCompleteList];
+}
+
+- (void)editExistingPlaningItem:(NSMutableDictionary *)updateExistingPlaningItem {
+    NSMutableArray *existingToDoPendingList = [[self requestPendingModel] mutableCopy];
+    [existingToDoPendingList replaceObjectAtIndex:currentPlaningItemRow withObject:updateExistingPlaningItem];
     existingToDoPendingList = [self setDate:existingToDoPendingList];
-    [[NSUserDefaults standardUserDefaults] setObject:existingToDoPendingList forKey:@"toDoPendingList"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self storePendingModel:existingToDoPendingList];
 }
 
-- (void)setExitingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow {
-    self.pendingTasks = pendingTasks;
-    currentItemRow = currentSelectedRow;
-    self.existingItem = [self.pendingTasks[currentItemRow] mutableCopy];
+- (void)editExistingCompletedItem:(NSMutableDictionary *)updateExistingCompletedItem {
+    NSMutableArray *existingToDoCompletedList = [[self requestCompletedModel] mutableCopy];
+    [existingToDoCompletedList replaceObjectAtIndex:currentCompletedItemRow withObject:updateExistingCompletedItem];
+    existingToDoCompletedList = [self setDate:existingToDoCompletedList];
+    [self storeCompletedModel:existingToDoCompletedList];
+}
+
+- (void)setExistingPendingItemToEditWithSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList {
+    NSMutableArray *existingToDoPendingList = [[self requestPendingModel] mutableCopy];
+    currentPlaningItemRow = currentSelectedRow;
+    self.existingPlaningItem = [existingToDoPendingList[currentPlaningItemRow] mutableCopy];
+    self.originList = originList;
+}
+
+- (void)setExistingCompletedItemToEditWithSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList {
+    NSMutableArray *existingToDoCompletedList = [[self requestCompletedModel] mutableCopy];
+    currentCompletedItemRow = currentSelectedRow;
+    self.existingCompletedItem = [existingToDoCompletedList[currentCompletedItemRow] mutableCopy];
+    self.originList = originList;
 }
 
 @end

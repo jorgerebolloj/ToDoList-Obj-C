@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SWTableViewCell.h>
 
-@interface ToDoCompletedListTableViewCell : UITableViewCell
+@interface ToDoCompletedListTableViewCell : SWTableViewCell
 
 - (void)setToDoCompletedListModel:(NSMutableDictionary *)toDoCompletedListInfo;
 
@@ -16,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateItemLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageItemImage;
+@property (weak, nonatomic) IBOutlet UIButton *pendingToDoBtn;
 
 @end
