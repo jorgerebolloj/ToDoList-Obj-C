@@ -88,6 +88,7 @@
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
+                                            <outlet property="completeToDoBtn" destination="PQ9-IA-ePe" id="Cjc-Ha-kvr"/>
                                             <outlet property="dateItemLabel" destination="pgL-hK-V2e" id="cRp-9x-WgN"/>
                                             <outlet property="imageItemImage" destination="f4M-uC-j7J" id="LiP-DD-xIu"/>
                                             <outlet property="itemTitleLabel" destination="hmc-Mo-75C" id="xgl-X2-H3X"/>
@@ -239,9 +240,15 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="457"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="Cqg-pa-b8e">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <animations/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoCompletedListViewCell" rowHeight="81" id="gyH-Fu-tkM" customClass="ToDoCompletedListTableViewCell">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="81"/>
+                                        <rect key="frame" x="0.0" y="72" width="320" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gyH-Fu-tkM" id="VPl-Ty-vei">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -298,7 +305,9 @@
                                             <outlet property="dateItemLabel" destination="7Du-dS-4y1" id="0pp-4l-ev3"/>
                                             <outlet property="imageItemImage" destination="26d-MF-1jr" id="ldV-qD-1b3"/>
                                             <outlet property="itemTitleLabel" destination="27U-LD-MQh" id="UT4-Mn-cas"/>
+                                            <outlet property="pendingToDoBtn" destination="EH5-xk-Q46" id="j2q-X2-teW"/>
                                             <outlet property="statusItemButton" destination="EH5-xk-Q46" id="4IF-bi-ax0"/>
+                                            <segue destination="n9P-gH-Z2y" kind="show" identifier="singleCompletedToDoViewSegue" id="5Dj-QK-zA0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -316,6 +325,7 @@
                     <navigationItem key="navigationItem" title="My completed TODOs" id="8iN-OI-WBe"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="mSearchBar2" destination="Cqg-pa-b8e" id="L7v-sK-Buy"/>
                         <outlet property="toDoCompletedListTable" destination="xbF-Rj-JLc" id="MEM-7l-ED7"/>
                     </connections>
                 </viewController>
@@ -392,4 +402,7 @@
         <image name="taskPending32x32.png" width="32" height="32"/>
         <image name="taskPending512x512.png" width="512" height="512"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="5Dj-QK-zA0"/>
+    </inferredMetricsTieBreakers>
 </document>

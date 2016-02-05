@@ -40,18 +40,27 @@
 - (void)viewDidAppear:(BOOL)animated {
     //reuse NewItemView to editItemView function
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-    if ([[toDoBusiness.existingItem allKeys] count] != 0) {
-        self.toDoExistingItem = [toDoBusiness.existingItem mutableCopy];
+    if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0) {
         self.navigationItem.title = @"Edit TODO";
-        [self.toDoTitleTextField setText:[[self.toDoExistingItem valueForKeyPath:@"title"] description]];
-        [self.toDoDescriptionTextField setText:[[self.toDoExistingItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingItem valueForKeyPath:@"description"] description] : @""];
-        UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingItem valueForKeyPath:@"image"] description]];
-        [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
+        if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
+            self.toDoExistingPlaningItem = [toDoBusiness.existingPlaningItem mutableCopy];
+            [self.toDoTitleTextField setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"title"] description]];
+            [self.toDoDescriptionTextField setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingPlaningItem valueForKeyPath:@"description"] description] : @""];
+            UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingPlaningItem valueForKeyPath:@"image"] description]];
+            [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
+        } else {
+            self.toDoExistingCompletedItem = [toDoBusiness.existingCompletedItem mutableCopy];
+            [self.toDoTitleTextField setText:[[self.toDoExistingCompletedItem valueForKeyPath:@"title"] description]];
+            [self.toDoDescriptionTextField setText:[[self.toDoExistingCompletedItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingCompletedItem valueForKeyPath:@"description"] description] : @""];
+            UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingCompletedItem valueForKeyPath:@"image"] description]];
+            [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
+        }
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
     }
 }
 
 - (void)backAction {
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     [self.toDoTitleTextField resignFirstResponder];
     [self.toDoDescriptionTextField resignFirstResponder];
     [self.toDoTitleTextField setText: @""];
@@ -59,9 +68,13 @@
     self.navigationItem.title = @"Add new TODO";
     [self.toDoAddImageBtn setImage:[UIImage imageNamed:@"image512x512.png"] forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonSystemItemFastForward target:nil action:@selector(backAction)];
-    [self.toDoExistingItem removeAllObjects];
-    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-    [toDoBusiness.existingItem removeAllObjects];
+    if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
+        [self.toDoExistingPlaningItem removeAllObjects];
+        [toDoBusiness.existingPlaningItem removeAllObjects];
+    } else {
+        [self.toDoExistingCompletedItem removeAllObjects];
+        [toDoBusiness.existingCompletedItem removeAllObjects];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -70,17 +83,22 @@
 }
 
 - (IBAction)toDoStoreNewItemBtn:(id)sender {
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     [self.toDoNewItem setObject:self.toDoTitleTextField.text forKey:@"title"];
     [self.toDoNewItem setObject:self.toDoDescriptionTextField.text forKey:@"description"];
     [self.toDoNewItem setObject:self.dateString forKey:@"modifiedDate"];
     [self.toDoNewItem setObject:@0 forKey:@"status"];
     [self.toDoNewItem setObject:@"image512x512.png" forKey:@"image"];
     if (![self.toDoTitleTextField.text isEqualToString:@""] && ![self.dateString isEqualToString:@""]) {
-        ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-        if ([[toDoBusiness.existingItem allKeys] count] == 0)
-            [toDoBusiness storeNewItem:self.toDoNewItem];
-        else
-            [toDoBusiness editExistingItem:self.toDoNewItem];
+        if ([toDoBusiness.originList isEqualToString:@"CompletedList"]) {
+            if ([[toDoBusiness.existingCompletedItem allKeys] count] == 0)
+                [toDoBusiness editExistingCompletedItem:self.toDoNewItem];
+        } else {
+            if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0)
+                [toDoBusiness editExistingPlaningItem:self.toDoNewItem];
+            else
+                [toDoBusiness storeNewItem:self.toDoNewItem];
+        }
         [self backAction];
     }
 }

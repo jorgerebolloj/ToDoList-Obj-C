@@ -11,15 +11,23 @@
 @interface ToDoBusinessController : NSObject
 
 @property (strong, nonatomic) NSMutableArray *pendingTasks;
-@property (strong, nonatomic) NSMutableDictionary *existingItem;
+@property (strong, nonatomic) NSMutableArray *completedTasks;
+@property (strong, nonatomic) NSMutableDictionary *existingPlaningItem;
+@property (strong, nonatomic) NSMutableDictionary *existingCompletedItem;
+@property (strong, nonatomic) NSString *originList;
 
 - (void)storePendingModel:(NSMutableArray *)pendingModel;
+- (void)storeCompletedModel:(NSMutableArray *)completedModel;
 - (NSMutableArray *)requestPendingModel;
+- (NSMutableArray *)requestCompletedModel;
 - (NSString *)dateTimeConfiguration;
 - (NSMutableArray *)setDate:(NSMutableArray *)pendingTasks;
 - (void)storeNewItem:(NSMutableDictionary *)newItem;
-- (void)editExistingItem:(NSMutableDictionary *)updateExistingItem;
-- (void)setExitingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow;
+- (void)completeToDo:(NSMutableDictionary *)newItem;
+- (void)editExistingPlaningItem:(NSMutableDictionary *)updateExistingPlaningItem;
+- (void)editExistingCompletedItem:(NSMutableDictionary *)updateExistingCompletedItem;
+- (void)setExistingPendingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList;
+- (void)setExistingCompletedItemToEdit:(NSMutableArray *)completedTasks withSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList;
 
 + (ToDoBusinessController *)sharedInstance;
 

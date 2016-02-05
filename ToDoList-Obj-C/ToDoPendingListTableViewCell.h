@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateItemLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageItemImage;
+@property (weak, nonatomic) IBOutlet UIButton *completeToDoBtn;
 
 @end

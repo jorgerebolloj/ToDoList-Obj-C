@@ -9,6 +9,7 @@
 #import "SecondViewController.h"
 #import "ToDoCompletedListTableViewCell.h"
 #import "ToDoBusinessController.h"
+#import "NewItemViewController.h"
 
 @interface SecondViewController ()
 
@@ -16,68 +17,266 @@
 
 @implementation SecondViewController
 
++ (SecondViewController *)sharedInstance {
+    static dispatch_once_t onceToken;
+    static SecondViewController *instance = nil;
+    dispatch_once(&onceToken, ^{
+        instance = [[SecondViewController alloc] init];
+    });
+    return instance;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        _toDoCompletedListViewModel = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.mSearchBar2 setDelegate:self];
+    UITextField *textField = [self.mSearchBar2 valueForKey:@"_searchField"];
+    textField.clearButtonMode = UITextFieldViewModeNever;
     [self.toDoCompletedListTable setDelegate:self];
     [self.toDoCompletedListTable setDataSource:self];
-    self.toDoCompletedListViewModel = [NSMutableArray arrayWithArray:@[
-                                                                     @{
-                                                                         @"title"      : @"Buy nutella",
-                                                                         @"modifiedDate" : @"2016/02/01 02:45 AM",
-                                                                         @"status"    : @0,
-                                                                         @"image"    : @"image512x512.png",
-                                                                         },
-                                                                     @{
-                                                                         @"title"      : @"Learn english",
-                                                                         @"modifiedDate" : @"2016/01/18 02:45 AM",
-                                                                         @"status"    : @0,
-                                                                         @"image"    : @"image512x512.png",
-                                                                         },
-                                                                     @{
-                                                                         @"title"      : @"Play Dragon Age",
-                                                                         @"modifiedDate" : @"2016/01/10 02:45 AM",
-                                                                         @"status"    : @0,
-                                                                         @"image"    : @"image512x512.png",
-                                                                         },
-                                                                     ]];
-    if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"])
-        self.toDoCompletedListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
-    else {
-        [[NSUserDefaults standardUserDefaults] setObject:self.toDoCompletedListViewModel forKey:@"toDoCompletedList"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    
+    self.toDoCompletedListViewModel = [[NSMutableArray alloc]init];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-    self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
+    if ([[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"]) {
+        self.toDoCompletedListViewModel = [toDoBusiness requestCompletedModel];
+        self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
+    }
+    [toDoBusiness storeCompletedModel:self.toDoCompletedListViewModel];
+    
+    self.filteredModel2 = [[NSMutableArray alloc] init];
+    //[self.filteredModel2 addObjectsFromArray:[self.toDoCompletedListViewModel mutableCopy]];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardShown:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    self.toDoCompletedListViewModel = [toDoBusiness requestCompletedModel];
     [self.toDoCompletedListTable reloadData];
+}
+
+- (void)keyboardShown:(NSNotification *)notification {
+    CGRect keyboardFrame;
+    [[[notification userInfo]objectForKey:UIKeyboardFrameEndUserInfoKey]getValue:&keyboardFrame];
+    CGRect tableViewFrame = self.toDoCompletedListTable.frame;
+    tableViewFrame.size.height -= keyboardFrame.size.height;
+    [self.toDoCompletedListTable setFrame:tableViewFrame];
+}
+
+- (void)keyboardHidden:(NSNotification *)notification {
+    [self.toDoCompletedListTable setFrame:self.view.bounds];
 }
 
 #pragma mark UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.toDoCompletedListViewModel count];
+    if ([self.filteredModel2 count] != 0)
+        return [self.filteredModel2 count];
+    else
+        return [self.toDoCompletedListViewModel count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cellView;
-    ToDoCompletedListTableViewCell *toDoCompletedTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"ToDoCompletedListViewCell" forIndexPath:indexPath];
+    ToDoCompletedListTableViewCell *toDoCompletedTableViewCell = (ToDoCompletedListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"ToDoCompletedListViewCell" forIndexPath:indexPath];
+    
+    toDoCompletedTableViewCell.leftUtilityButtons = [self leftButtons];
+    toDoCompletedTableViewCell.rightUtilityButtons = [self rightButtons];
+    toDoCompletedTableViewCell.delegate = self;
+    
     SEL selector = @selector(setToDoCompletedListModel:);
     if([toDoCompletedTableViewCell respondsToSelector:selector]) {
-        NSMutableDictionary *toDoCompletedCellViewModel = [self.toDoCompletedListViewModel objectAtIndex:indexPath.row];
+        NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
+        if ([self.filteredModel2 count] != 0)
+            toDoCompletedCellViewModel = [self.filteredModel2 objectAtIndex:indexPath.row];
+        else
+            toDoCompletedCellViewModel = [self.toDoCompletedListViewModel objectAtIndex:indexPath.row];
         [toDoCompletedTableViewCell setToDoCompletedListModel:toDoCompletedCellViewModel];
     }
+    
+    toDoCompletedTableViewCell.pendingToDoBtn.tag = indexPath.row;
+    [toDoCompletedTableViewCell.pendingToDoBtn addTarget:self action:@selector(yourButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITableViewCell *cellView;
     cellView = toDoCompletedTableViewCell;
     cellView.backgroundColor = [UIColor clearColor];
     cellView.backgroundView = [[UIImageView alloc] init];
     cellView.selectedBackgroundView = [[UIImageView alloc] init];
     return cellView;
 }
+
+-(void)yourButtonClicked:(UIButton*)sender
+{
+    NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
+    int toDoId = sender.tag;
+    if ([self.filteredModel2 count] != 0) {
+        toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:toDoId] mutableCopy];
+        [self.filteredModel2 removeAllObjects];
+    } else
+        toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:toDoId] mutableCopy];
+    
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    [toDoBusiness storeNewItem:self.toDoCompletedListViewModel[toDoId]];
+    
+    [self.toDoCompletedListViewModel removeObjectAtIndex:toDoId];
+    NSIndexPath *btnIndexPath = [NSIndexPath indexPathForRow:toDoId inSection:0];
+    [self.toDoCompletedListTable deleteRowsAtIndexPaths:@[btnIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.filteredModel2 removeAllObjects];
+    [[NSUserDefaults standardUserDefaults] setObject:self.toDoCompletedListViewModel forKey:@"toDoCompletedList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    self.toDoCompletedListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
+    [self.toDoCompletedListTable reloadData];
+}
+
+#pragma mark UITable Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+#pragma mark - UISearchBarDelegate
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [self.mSearchBar2 setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self.mSearchBar2 setShowsCancelButton:NO animated:YES];
+    searchBar.text = @"";
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length == 0) {
+        [self.filteredModel2 removeAllObjects];
+        //[self.filteredModel2 addObjectsFromArray:[self.toDoCompletedListViewModel mutableCopy]];
+    } else {
+        [self.filteredModel2 removeAllObjects];
+        for (NSString *itemToDo in self.toDoCompletedListViewModel) {
+            NSString *stringToDoTitle = [[itemToDo valueForKeyPath:@"title"] description];
+            NSRange range = [stringToDoTitle rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if (range.location != NSNotFound )
+                [self.filteredModel2 addObject:itemToDo];
+        }
+    }
+    [self.toDoCompletedListTable reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    searchBar.text = @"";
+    [self.mSearchBar2 resignFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchBar.text = @"";
+    [self.mSearchBar2 resignFirstResponder];
+    [self.filteredModel2  removeAllObjects];
+    [self.toDoCompletedListTable reloadData];
+}
+
+#pragma mark - SWTableViewCell
+- (NSArray *)rightButtons {
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"edit64x64.png"]];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"delete64x64.png"]];
+    return rightUtilityButtons;
+}
+
+- (NSArray *)leftButtons {
+    NSMutableArray *leftUtilityButtons = [NSMutableArray new];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"email64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"sms64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"facebook64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"twitter64x64.png"]];
+    return leftUtilityButtons;
+}
+
+// click event on left utility button
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+            NSLog(@"email button was pressed");
+            break;
+        case 1:
+            NSLog(@"sms button was pressed");
+            break;
+        case 2:
+            NSLog(@"facebook button was pressed");
+            break;
+        case 3:
+            NSLog(@"twitter button was pressed");
+        default:
+            break;
+    }
+}
+
+// click event on right utility button
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    switch (index) {
+        case 0:
+        {
+            NSLog(@"Edit button was pressed");
+            NSIndexPath *cellIndexPath = [self.toDoCompletedListTable indexPathForCell:cell];
+            NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
+            int toDoId = 0;
+            if ([self.filteredModel2 count] != 0)
+                toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:cellIndexPath.row] mutableCopy];
+            else
+                toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+            
+            toDoId = [[toDoCompletedCellViewModel valueForKeyPath:@"id"]intValue];
+            ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+            [toDoBusiness setExistingCompletedItemToEdit:self.toDoCompletedListViewModel withSelecteRow:toDoId andOriginList:@"CompletedList"];
+            [self.filteredModel2 removeAllObjects];
+            [self performSegueWithIdentifier:@"singleCompletedToDoViewSegue" sender:self];
+            break;
+        }
+        case 1:
+        {
+            NSLog(@"Delete button was pressed");
+            NSIndexPath *cellIndexPath = [self.toDoCompletedListTable indexPathForCell:cell];
+            NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
+            int toDoId = 0;
+            if ([self.filteredModel2 count] != 0) {
+                toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:cellIndexPath.row] mutableCopy];
+                [self.filteredModel2 removeAllObjects];
+            } else
+                toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+            
+            toDoId = [[toDoCompletedCellViewModel valueForKeyPath:@"id"] intValue];
+            [self.toDoCompletedListViewModel removeObjectAtIndex:toDoId];
+            [self.toDoCompletedListTable deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.filteredModel2 removeAllObjects];
+            [[NSUserDefaults standardUserDefaults] setObject:self.toDoCompletedListViewModel forKey:@"toDoCompletedList"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            self.toDoCompletedListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
+            [self.toDoCompletedListTable reloadData];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+// utility button open/close event
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state {
+    
+}
+
+// prevent multiple cells from showing utilty buttons simultaneously
+/*- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+ }
+ 
+ // prevent cell(s) from displaying left/right utility buttons
+ - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
+ }*/
 
 
 @end
