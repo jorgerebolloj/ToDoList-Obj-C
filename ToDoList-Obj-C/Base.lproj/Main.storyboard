@@ -22,9 +22,15 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="QXD-XE-CBR">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <animations/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ToDoPendingListViewCell" rowHeight="81" id="O3f-bH-RI2" customClass="ToDoPendingListTableViewCell">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="81"/>
+                                        <rect key="frame" x="0.0" y="72" width="320" height="81"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="O3f-bH-RI2" id="tna-zi-5x6">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -106,6 +112,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="searchBar" destination="QXD-XE-CBR" id="QYf-cQ-s1N"/>
                         <outlet property="toDoPendingListTable" destination="Cx7-Cc-Bl0" id="KRy-xE-1YC"/>
                     </connections>
                 </viewController>
