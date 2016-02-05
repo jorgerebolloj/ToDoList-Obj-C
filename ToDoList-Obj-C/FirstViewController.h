@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
+{
+    MFMailComposeViewController *mailComposer;
+}
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoPendingListTable;
 @property (nonatomic, strong) NSMutableArray *toDoPendingListViewModel;

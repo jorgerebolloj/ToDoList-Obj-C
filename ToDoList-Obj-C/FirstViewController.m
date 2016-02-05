@@ -207,8 +207,44 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0:
+        {
             NSLog(@"email button was pressed");
+            NSIndexPath *cellIndexPath = [self.toDoPendingListTable indexPathForCell:cell];
+            NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
+            if ([self.filteredModel count] != 0) {
+                toDoPendingCellViewModel = [[self.filteredModel objectAtIndex:cellIndexPath.row] mutableCopy];
+                [self.filteredModel removeAllObjects];
+            } else
+                toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+            NSString *emailToDoTitle = [toDoPendingCellViewModel valueForKeyPath:@"title"];
+            NSString *emailToDoDescription = [toDoPendingCellViewModel valueForKeyPath:@"description"];
+            NSString *emailToDoModifiedDate = [toDoPendingCellViewModel valueForKeyPath:@"modifiedDate"];
+            NSString *emailToDoStatus = [toDoPendingCellViewModel valueForKeyPath:@"status"];
+            UIImage *image = [UIImage imageNamed:[toDoPendingCellViewModel valueForKeyPath:@"image"]];
+            NSString *messageBody = [NSString stringWithFormat:@"<h1>%@</h1> \n<h2>%@</h2> \n%@ \n%@", emailToDoTitle, emailToDoDescription, emailToDoModifiedDate, emailToDoStatus];
+            
+            if ([MFMailComposeViewController canSendMail])
+            {
+                NSData *pngData = UIImagePNGRepresentation(image);
+                
+                NSString *fileName = emailToDoTitle;
+                fileName = [fileName stringByAppendingPathExtension:@"png"];
+                [mailComposer addAttachmentData:pngData mimeType:@"image/png" fileName:fileName];
+                
+                NSArray *toRecipents = [NSArray arrayWithObject:@"jorgerebolloj@gmail.com"];
+                mailComposer = [[MFMailComposeViewController alloc]init];
+                mailComposer.mailComposeDelegate = self;
+                [mailComposer setSubject:emailToDoTitle];
+                [mailComposer setMessageBody:messageBody isHTML:YES];
+                [mailComposer setToRecipients:toRecipents];
+                [self presentViewController:mailComposer animated:YES completion:NULL];
+            }
+            else
+            {
+                NSLog(@"This device cannot send email");
+            }
             break;
+        }
         case 1:
             NSLog(@"sms button was pressed");
             break;
@@ -220,6 +256,32 @@
         default:
             break;
     }
+}
+
+#pragma mark - mail compose delegate
+-(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    switch (result) {
+        case MFMailComposeResultSent:
+            NSLog(@"You sent the email.");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"You saved a draft of this email");
+            break;
+        case MFMailComposeResultCancelled:
+            NSLog(@"You cancelled sending this email.");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail failed:  An error occurred when trying to compose this email");
+            break;
+        default:
+            NSLog(@"An error occurred when trying to compose this email");
+            break;
+    }
+    if (error) {
+        NSLog(@"Error : %@",error);
+    }
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
 }
 
 // click event on right utility button
