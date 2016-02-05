@@ -10,8 +10,6 @@
 
 @interface ToDoBusinessController : NSObject
 
-@property (strong, nonatomic) NSMutableArray *pendingTasks;
-@property (strong, nonatomic) NSMutableArray *completedTasks;
 @property (strong, nonatomic) NSMutableDictionary *existingPlaningItem;
 @property (strong, nonatomic) NSMutableDictionary *existingCompletedItem;
 @property (strong, nonatomic) NSString *originList;
@@ -26,8 +24,8 @@
 - (void)completeToDo:(NSMutableDictionary *)newItem;
 - (void)editExistingPlaningItem:(NSMutableDictionary *)updateExistingPlaningItem;
 - (void)editExistingCompletedItem:(NSMutableDictionary *)updateExistingCompletedItem;
-- (void)setExistingPendingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList;
-- (void)setExistingCompletedItemToEdit:(NSMutableArray *)completedTasks withSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList;
+- (void)setExistingPendingItemToEditWithSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList;
+- (void)setExistingCompletedItemToEditWithSelecteRow:(int)currentSelectedRow andOriginList:(NSString *)originList;
 
 + (ToDoBusinessController *)sharedInstance;
 

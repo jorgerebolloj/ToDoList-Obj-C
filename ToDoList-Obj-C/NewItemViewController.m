@@ -40,7 +40,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     //reuse NewItemView to editItemView function
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-    if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0) {
+    if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0 || [[toDoBusiness.existingCompletedItem allKeys] count] != 0) {
         self.navigationItem.title = @"Edit TODO";
         if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
             self.toDoExistingPlaningItem = [toDoBusiness.existingPlaningItem mutableCopy];
@@ -91,7 +91,7 @@
     [self.toDoNewItem setObject:@"image512x512.png" forKey:@"image"];
     if (![self.toDoTitleTextField.text isEqualToString:@""] && ![self.dateString isEqualToString:@""]) {
         if ([toDoBusiness.originList isEqualToString:@"CompletedList"]) {
-            if ([[toDoBusiness.existingCompletedItem allKeys] count] == 0)
+            if ([[toDoBusiness.existingCompletedItem allKeys] count] != 0)
                 [toDoBusiness editExistingCompletedItem:self.toDoNewItem];
         } else {
             if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0)

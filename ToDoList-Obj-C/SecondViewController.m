@@ -64,6 +64,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     self.toDoCompletedListViewModel = [toDoBusiness requestCompletedModel];
+    self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
     [self.toDoCompletedListTable reloadData];
 }
 
@@ -105,7 +106,7 @@
     }
     
     toDoCompletedTableViewCell.pendingToDoBtn.tag = indexPath.row;
-    [toDoCompletedTableViewCell.pendingToDoBtn addTarget:self action:@selector(yourButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [toDoCompletedTableViewCell.pendingToDoBtn addTarget:self action:@selector(completedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     UITableViewCell *cellView;
     cellView = toDoCompletedTableViewCell;
@@ -115,26 +116,24 @@
     return cellView;
 }
 
--(void)yourButtonClicked:(UIButton*)sender
+-(void)completedButtonClicked:(UIButton*)sender
 {
     NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
-    int toDoId = sender.tag;
+    int toDoId = 0;
     if ([self.filteredModel2 count] != 0) {
-        toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:toDoId] mutableCopy];
+        toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:sender.tag] mutableCopy];
         [self.filteredModel2 removeAllObjects];
     } else
-        toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:toDoId] mutableCopy];
+        toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:sender.tag] mutableCopy];
     
+    toDoId = [[toDoCompletedCellViewModel valueForKeyPath:@"id"]intValue];    
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     [toDoBusiness storeNewItem:self.toDoCompletedListViewModel[toDoId]];
     
     [self.toDoCompletedListViewModel removeObjectAtIndex:toDoId];
-    NSIndexPath *btnIndexPath = [NSIndexPath indexPathForRow:toDoId inSection:0];
-    [self.toDoCompletedListTable deleteRowsAtIndexPaths:@[btnIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.filteredModel2 removeAllObjects];
-    [[NSUserDefaults standardUserDefaults] setObject:self.toDoCompletedListViewModel forKey:@"toDoCompletedList"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    self.toDoCompletedListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
+    [toDoBusiness storeCompletedModel:self.toDoCompletedListViewModel];
+    self.toDoCompletedListViewModel = [toDoBusiness requestCompletedModel];
+    self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
     [self.toDoCompletedListTable reloadData];
 }
 
@@ -226,15 +225,15 @@
             NSIndexPath *cellIndexPath = [self.toDoCompletedListTable indexPathForCell:cell];
             NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
             int toDoId = 0;
-            if ([self.filteredModel2 count] != 0)
+            if ([self.filteredModel2 count] != 0) {
                 toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:cellIndexPath.row] mutableCopy];
-            else
+                [self.filteredModel2 removeAllObjects];
+            } else
                 toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
             
             toDoId = [[toDoCompletedCellViewModel valueForKeyPath:@"id"]intValue];
             ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-            [toDoBusiness setExistingCompletedItemToEdit:self.toDoCompletedListViewModel withSelecteRow:toDoId andOriginList:@"CompletedList"];
-            [self.filteredModel2 removeAllObjects];
+            [toDoBusiness setExistingCompletedItemToEditWithSelecteRow:toDoId andOriginList:@"CompletedList"];
             [self performSegueWithIdentifier:@"singleCompletedToDoViewSegue" sender:self];
             break;
         }
@@ -252,11 +251,10 @@
             
             toDoId = [[toDoCompletedCellViewModel valueForKeyPath:@"id"] intValue];
             [self.toDoCompletedListViewModel removeObjectAtIndex:toDoId];
-            [self.toDoCompletedListTable deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.filteredModel2 removeAllObjects];
-            [[NSUserDefaults standardUserDefaults] setObject:self.toDoCompletedListViewModel forKey:@"toDoCompletedList"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            self.toDoCompletedListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"] mutableCopy];
+            ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+            [toDoBusiness storeCompletedModel:self.toDoCompletedListViewModel];
+            self.toDoCompletedListViewModel = [toDoBusiness requestCompletedModel];
+            self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
             [self.toDoCompletedListTable reloadData];
             break;
         }

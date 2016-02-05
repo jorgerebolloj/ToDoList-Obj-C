@@ -93,6 +93,7 @@
                                             <outlet property="imageItemImage" destination="f4M-uC-j7J" id="LiP-DD-xIu"/>
                                             <outlet property="itemTitleLabel" destination="hmc-Mo-75C" id="xgl-X2-H3X"/>
                                             <outlet property="statusItemButton" destination="PQ9-IA-ePe" id="CYm-oU-hpq"/>
+                                            <segue destination="n9P-gH-Z2y" kind="show" identifier="singleToDoViewSegue" id="zKj-Fc-O3x"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -111,7 +112,7 @@
                     <navigationItem key="navigationItem" title="My pending TODOs" id="3MD-hj-7OV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Oyv-u4-tvL">
                             <connections>
-                                <segue destination="n9P-gH-Z2y" kind="show" identifier="singleToDoViewSegue" id="qKq-ty-yh3"/>
+                                <action selector="toDoNewItemBtn_Cmd:" destination="9pv-A4-QxB" id="zZw-Jl-0dw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -403,6 +404,6 @@
         <image name="taskPending512x512.png" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Dj-QK-zA0"/>
+        <segue reference="zKj-Fc-O3x"/>
     </inferredMetricsTieBreakers>
 </document>
