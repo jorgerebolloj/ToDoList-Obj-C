@@ -10,14 +10,16 @@
 
 @interface ToDoBusinessController : NSObject
 
+@property (strong, nonatomic) NSMutableArray *pendingTasks;
 @property (strong, nonatomic) NSMutableDictionary *existingItem;
-@property (nonatomic) NSUInteger *currentItemRow;
 
+- (void)storePendingModel:(NSMutableArray *)pendingModel;
+- (NSMutableArray *)requestPendingModel;
 - (NSString *)dateTimeConfiguration;
 - (NSMutableArray *)setDate:(NSMutableArray *)pendingTasks;
 - (void)storeNewItem:(NSMutableDictionary *)newItem;
-- (void)editExistingItem:(NSMutableDictionary *)existingItem;
-- (void)setExitingItem:(NSMutableDictionary *)existingItem withSelecteRow:(NSUInteger *)currentSelectedRow;
+- (void)editExistingItem:(NSMutableDictionary *)updateExistingItem;
+- (void)setExitingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow;
 
 + (ToDoBusinessController *)sharedInstance;
 

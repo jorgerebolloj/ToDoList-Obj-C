@@ -20,19 +20,21 @@
     [super viewDidLoad];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     self.dateString = [toDoBusiness dateTimeConfiguration];
+    self.navigationItem.title = @"Add new TODO";
     self.toDoNewItem = [[NSMutableDictionary alloc]init];
+    
+    self.toDoTitleTextField.delegate=self;
+    self.toDoDescriptionTextField.delegate=self;
+    
+    [self.toDoTitleTextField becomeFirstResponder];
+    
     self.gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    self.toDoTitleTextField.delegate=self;
-    self.toDoDescriptionTextField.delegate=self;
-    [self.toDoTitleTextField becomeFirstResponder];
-    self.navigationItem.title = @"Add new TODO";
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -41,11 +43,11 @@
     if ([[toDoBusiness.existingItem allKeys] count] != 0) {
         self.toDoExistingItem = [toDoBusiness.existingItem mutableCopy];
         self.navigationItem.title = @"Edit TODO";
-        [self.toDoTitleTextField setText: [[self.toDoExistingItem valueForKeyPath:@"title"] description]];
-        [self.toDoDescriptionTextField setText: [[self.toDoExistingItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingItem valueForKeyPath:@"description"] description]:@""];
+        [self.toDoTitleTextField setText:[[self.toDoExistingItem valueForKeyPath:@"title"] description]];
+        [self.toDoDescriptionTextField setText:[[self.toDoExistingItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingItem valueForKeyPath:@"description"] description] : @""];
         UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingItem valueForKeyPath:@"image"] description]];
         [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:nil action:@selector(backAction)];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
     }
 }
 
@@ -57,10 +59,10 @@
     self.navigationItem.title = @"Add new TODO";
     [self.toDoAddImageBtn setImage:[UIImage imageNamed:@"image512x512.png"] forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonSystemItemFastForward target:nil action:@selector(backAction)];
-    [self.navigationController popViewControllerAnimated:YES];
     [self.toDoExistingItem removeAllObjects];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     [toDoBusiness.existingItem removeAllObjects];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)toDoAddImageBtn:(id)sender {
@@ -75,17 +77,11 @@
     [self.toDoNewItem setObject:@"image512x512.png" forKey:@"image"];
     if (![self.toDoTitleTextField.text isEqualToString:@""] && ![self.dateString isEqualToString:@""]) {
         ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-        if ([[toDoBusiness.existingItem allKeys] count] == 0) {
+        if ([[toDoBusiness.existingItem allKeys] count] == 0)
             [toDoBusiness storeNewItem:self.toDoNewItem];
-            [self.toDoTitleTextField resignFirstResponder];
-            [self.toDoDescriptionTextField resignFirstResponder];
-            [self.toDoTitleTextField setText: @""];
-            [self.toDoDescriptionTextField setText: @""];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
+        else
             [toDoBusiness editExistingItem:self.toDoNewItem];
-            [self backAction];
-        }
+        [self backAction];
     }
 }
 

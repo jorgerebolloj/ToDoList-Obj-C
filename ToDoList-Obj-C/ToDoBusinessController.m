@@ -8,6 +8,15 @@
 
 #import "ToDoBusinessController.h"
 
+id getMutableElement(id element)
+{
+    return (__bridge NSDictionary *) (CFPropertyListCreateDeepCopy(kCFAllocatorDefault,
+                                                                   (__bridge CFPropertyListRef) (element),
+                                                                   kCFPropertyListMutableContainersAndLeaves));
+}
+
+int currentItemRow = 0;
+
 @implementation ToDoBusinessController
 
 + (ToDoBusinessController *)sharedInstance {
@@ -27,6 +36,16 @@
     return self;
 }
 
+- (void)storePendingModel:(NSMutableArray *)pendingModel {
+    [[NSUserDefaults standardUserDefaults] setObject:pendingModel forKey:@"toDoPendingList"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSMutableArray *)requestPendingModel {
+    NSMutableArray *pendingModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
+    return pendingModel;
+}
+
 - (NSString *)dateTimeConfiguration {
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -38,8 +57,13 @@
 - (NSMutableArray *)setDate:(NSMutableArray *)pendingTasks {
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"modifiedDate" ascending:YES];
-    pendingTasks = [[pendingTasks sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]] mutableCopy];
-    NSMutableArray *pendingTasksSorted = pendingTasks;
+    pendingTasks = [[pendingTasks sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]]mutableCopy];
+    NSMutableArray *pendingTasksM = [[NSMutableArray alloc]init];
+    for (NSDictionary *item in pendingTasks)
+            [pendingTasksM addObject:[item mutableCopy]];
+    for (int i=0; i < [pendingTasksM count]; i++)
+        [pendingTasksM[i] setObject:@(i) forKey:@"id"];
+    NSMutableArray *pendingTasksSorted = pendingTasksM;
     return pendingTasksSorted;
 }
 
@@ -50,17 +74,18 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)editExistingItem:(NSMutableDictionary *)existingItem {
-    NSMutableArray *existingToDoPendingList = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];
-    [existingToDoPendingList replaceObjectAtIndex:self.currentItemRow withObject:existingItem];
+- (void)editExistingItem:(NSMutableDictionary *)updateExistingItem {
+    NSMutableArray *existingToDoPendingList = [self.pendingTasks mutableCopy];
+    [existingToDoPendingList replaceObjectAtIndex:currentItemRow withObject:updateExistingItem];
     existingToDoPendingList = [self setDate:existingToDoPendingList];
     [[NSUserDefaults standardUserDefaults] setObject:existingToDoPendingList forKey:@"toDoPendingList"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)setExitingItem:(NSMutableDictionary *)existingItem withSelecteRow:(NSUInteger *)currentSelectedRow {
-    self.existingItem = existingItem;
-    self.currentItemRow = currentSelectedRow;
+- (void)setExitingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow {
+    self.pendingTasks = pendingTasks;
+    currentItemRow = currentSelectedRow;
+    self.existingItem = [self.pendingTasks[currentItemRow] mutableCopy];
 }
 
 @end
