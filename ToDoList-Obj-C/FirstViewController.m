@@ -36,7 +36,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [_searchBar setDelegate:self];
+    [self.mSearchBar setDelegate:self];
+    UITextField *textField = [self.mSearchBar valueForKey:@"_searchField"];
+    textField.clearButtonMode = UITextFieldViewModeNever;
     [self.toDoPendingListTable setDelegate:self];
     [self.toDoPendingListTable setDataSource:self];
     
@@ -52,7 +54,7 @@
     }
     
     self.filteredModel = [[NSMutableArray alloc] init];
-    [self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
+    //[self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardShown:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
@@ -114,10 +116,20 @@
 }
 
 #pragma mark - UISearchBarDelegate
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [self.mSearchBar setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [self.mSearchBar setShowsCancelButton:NO animated:YES];
+    searchBar.text = @"";
+}
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length == 0) {
         [self.filteredModel removeAllObjects];
-        [self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
+        //[self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
     } else {
         [self.filteredModel removeAllObjects];
         for (NSString *itemToDo in self.toDoPendingListViewModel) {
@@ -131,7 +143,15 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [_searchBar resignFirstResponder];
+    searchBar.text = @"";
+    [self.mSearchBar resignFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    searchBar.text = @"";
+    [self.mSearchBar resignFirstResponder];
+    [self.filteredModel  removeAllObjects];
+    [self.toDoPendingListTable reloadData];
 }
 
 #pragma mark - SWTableViewCell
@@ -187,8 +207,8 @@
             toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"]intValue];
             ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
             [toDoBusiness setExitingItemToEdit:self.toDoPendingListViewModel withSelecteRow:toDoId];
-            [self performSegueWithIdentifier:@"singleToDoViewSegue" sender:self];
             [self.filteredModel removeAllObjects];
+            [self performSegueWithIdentifier:@"singleToDoViewSegue" sender:self];
             break;
         }
         case 1:
@@ -206,6 +226,7 @@
             toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"] intValue];
             [self.toDoPendingListViewModel removeObjectAtIndex:toDoId];
             [self.toDoPendingListTable deleteRowsAtIndexPaths:@[cellIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.filteredModel removeAllObjects];
             [[NSUserDefaults standardUserDefaults] setObject:self.toDoPendingListViewModel forKey:@"toDoPendingList"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             self.toDoPendingListViewModel = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoPendingList"] mutableCopy];

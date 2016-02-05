@@ -85,7 +85,7 @@ int currentItemRow = 0;
 - (void)setExitingItemToEdit:(NSMutableArray *)pendingTasks withSelecteRow:(int)currentSelectedRow {
     self.pendingTasks = pendingTasks;
     currentItemRow = currentSelectedRow;
-    self.existingItem = self.pendingTasks[currentItemRow];
+    self.existingItem = [self.pendingTasks[currentItemRow] mutableCopy];
 }
 
 @end

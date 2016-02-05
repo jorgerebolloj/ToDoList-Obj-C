@@ -12,7 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoPendingListTable;
 @property (nonatomic, strong) NSMutableArray *toDoPendingListViewModel;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *mSearchBar;
 @property (strong, nonatomic) NSMutableArray *filteredModel;
 
 + (FirstViewController *)sharedInstance;
