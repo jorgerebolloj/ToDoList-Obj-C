@@ -668,5 +668,20 @@
  - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
  }*/
 
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    NSLog(@"Selected INDEX OF TAB-BAR ==> %i", tabBarController.selectedIndex);
+    
+    if (tabBarController.selectedIndex == 3) {
+        //[self getFeedsFromServer];
+    }
+    NSLog(@"controller class: %@", NSStringFromClass([viewController class]));
+    NSLog(@"controller title: %@", viewController.title);
+    
+    /*if (viewController == tabBarController.moreNavigationController)
+    {
+        tabBarController.moreNavigationController.delegate = self;
+    }*/
+}
+
 
 @end
