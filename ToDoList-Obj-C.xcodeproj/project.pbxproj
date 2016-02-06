@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30033D931C6555900079FCA3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30033D921C6555900079FCA3 /* MessageUI.framework */; };
 		30DC446B1C63A7E400AE0837 /* edit64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC44691C63A7E400AE0837 /* edit64x64.png */; };
 		30DC446C1C63A7E400AE0837 /* delete64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC446A1C63A7E400AE0837 /* delete64x64.png */; };
 		30DC44711C63A99600AE0837 /* twitter64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC446D1C63A99600AE0837 /* twitter64x64.png */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30033D921C6555900079FCA3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		30DC44691C63A7E400AE0837 /* edit64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = edit64x64.png; path = Resources/edit64x64.png; sourceTree = SOURCE_ROOT; };
 		30DC446A1C63A7E400AE0837 /* delete64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = delete64x64.png; path = Resources/delete64x64.png; sourceTree = SOURCE_ROOT; };
 		30DC446D1C63A99600AE0837 /* twitter64x64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitter64x64.png; path = Resources/twitter64x64.png; sourceTree = SOURCE_ROOT; };
@@ -90,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30033D931C6555900079FCA3 /* MessageUI.framework in Frameworks */,
 				81ADFEBAE92B5FF4CD1D99E1 /* libPods-ToDoList-Obj-C.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,6 +238,7 @@
 		462815E6A475A94ED7D7036C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30033D921C6555900079FCA3 /* MessageUI.framework */,
 				3382E2418F65035341CCC233 /* libPods-ToDoList-Obj-C.a */,
 			);
 			name = Frameworks;

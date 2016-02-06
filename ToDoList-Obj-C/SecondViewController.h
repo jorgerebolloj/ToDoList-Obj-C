@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 
-@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
+{
+    MFMailComposeViewController *mailComposer;
+    MFMessageComposeViewController *smsComposer;
+    SLComposeViewController *facebookSLComposerSheet;
+    SLComposeViewController *twitterSLComposerSheet;
+}
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoCompletedListTable;
 @property (nonatomic, strong) NSMutableArray *toDoCompletedListViewModel;
