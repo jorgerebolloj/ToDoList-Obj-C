@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import <Social/Social.h>
+#import <Accounts/Accounts.h>
 
 @interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
 {
     MFMailComposeViewController *mailComposer;
+    MFMessageComposeViewController *smsComposer;
+    SLComposeViewController *facebookSLComposerSheet;
+    SLComposeViewController *twitterSLComposerSheet;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoPendingListTable;

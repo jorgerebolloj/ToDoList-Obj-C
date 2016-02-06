@@ -239,26 +239,35 @@
         case 0:
         {
             NSLog(@"email button was pressed");
-            if ([MFMailComposeViewController canSendMail])
+            if (![MFMailComposeViewController canSendMail])
             {
-                NSData *pngData = UIImagePNGRepresentation(image);
+                UIAlertController * alert=   [UIAlertController
+                                              alertControllerWithTitle:@"Error"
+                                              message:@"This device doesn't support email"
+                                              preferredStyle:UIAlertControllerStyleAlert];
                 
-                NSString *fileName = toDoTitle;
-                fileName = [fileName stringByAppendingPathExtension:@"png"];
-                [mailComposer addAttachmentData:pngData mimeType:@"image/png" fileName:fileName];
-                
-                NSArray *toRecipents = [NSArray arrayWithObject:@"jorgerebolloj@gmail.com"];
-                mailComposer = [[MFMailComposeViewController alloc]init];
-                mailComposer.mailComposeDelegate = self;
-                [mailComposer setSubject:toDoTitle];
-                [mailComposer setMessageBody:message isHTML:YES];
-                [mailComposer setToRecipients:toRecipents];
-                [self presentViewController:mailComposer animated:YES completion:NULL];
+                [self presentViewController:alert animated:YES completion:nil];
+                UIAlertAction* ok = [UIAlertAction
+                                     actionWithTitle:@"OK"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                return;
             }
-            else
-            {
-                NSLog(@"This device cannot send email");
-            }
+            NSData *pngData = UIImagePNGRepresentation(image);
+            NSString *fileName = toDoTitle;
+            fileName = [fileName stringByAppendingPathExtension:@"png"];
+            [mailComposer addAttachmentData:pngData mimeType:@"image/png" fileName:fileName];
+            NSArray *toRecipents = [NSArray arrayWithObject:@"jorgerebolloj@gmail.com"];
+            mailComposer = [[MFMailComposeViewController alloc]init];
+            mailComposer.mailComposeDelegate = self;
+            [mailComposer setSubject:toDoTitle];
+            [mailComposer setMessageBody:message isHTML:YES];
+            [mailComposer setToRecipients:toRecipents];
+            [self presentViewController:mailComposer animated:YES completion:NULL];
             break;
         }
         case 1:
@@ -268,7 +277,33 @@
             if(![MFMessageComposeViewController canSendText]) {
                 UIAlertController * alert=   [UIAlertController
                                               alertControllerWithTitle:@"Error"
-                                              message:@"Your device doesn't support SMS!"
+                                              message:@"This device doesn't support SMS"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                UIAlertAction* ok = [UIAlertAction
+                                     actionWithTitle:@"OK"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                return;
+            }
+            smsComposer.messageComposeDelegate = self;
+            [smsComposer setRecipients:recipents];
+            [smsComposer setBody:message];
+            [self presentViewController:smsComposer animated:YES completion:nil];
+            break;
+        }
+        case 2:
+        {
+            NSLog(@"facebook button was pressed");
+            if(![SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+                UIAlertController * alert=   [UIAlertController
+                                              alertControllerWithTitle:@"Error"
+                                              message:@"This device doesn't support Facebook"
                                               preferredStyle:UIAlertControllerStyleAlert];
                 
                 [self presentViewController:alert animated:YES completion:nil];
@@ -283,19 +318,95 @@
                 return;
             }
             
-            MFMessageComposeViewController *messageController = [[MFMessageComposeViewController alloc] init];
-            messageController.messageComposeDelegate = self;
-            [messageController setRecipients:recipents];
-            [messageController setBody:message];
+            facebookSLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+            [facebookSLComposerSheet setInitialText:[NSString stringWithFormat:message,facebookSLComposerSheet.serviceType]];
+            [facebookSLComposerSheet addImage:image];
+            [self presentViewController:facebookSLComposerSheet animated:YES completion:nil];
             
-            [self presentViewController:messageController animated:YES completion:nil];
+            [facebookSLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                NSString *output;
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        output = @"Action Cancelled";
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        output = @"Post Successfull";
+                        break;
+                    default:
+                        break;
+                }
+                UIAlertController * alert=   [UIAlertController
+                                              alertControllerWithTitle:@"Facebook"
+                                              message:output
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                UIAlertAction* ok = [UIAlertAction
+                                     actionWithTitle:@"OK"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+            }];
             break;
         }
-        case 2:
-            NSLog(@"facebook button was pressed");
-            break;
         case 3:
+        {
             NSLog(@"twitter button was pressed");
+            if(![SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+                UIAlertController * alert=   [UIAlertController
+                                              alertControllerWithTitle:@"Error"
+                                              message:@"This device doesn't support Twitter"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                UIAlertAction* ok = [UIAlertAction
+                                     actionWithTitle:@"OK"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+                return;
+            }
+            
+            twitterSLComposerSheet = [[SLComposeViewController alloc] init];
+            twitterSLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+            [twitterSLComposerSheet setInitialText:[NSString stringWithFormat:message,twitterSLComposerSheet.serviceType]];
+            [twitterSLComposerSheet addImage:image];
+            [self presentViewController:twitterSLComposerSheet animated:YES completion:nil];
+            
+            [twitterSLComposerSheet setCompletionHandler:^(SLComposeViewControllerResult result) {
+                NSString *output;
+                switch (result) {
+                    case SLComposeViewControllerResultCancelled:
+                        output = @"Action Cancelled";
+                        break;
+                    case SLComposeViewControllerResultDone:
+                        output = @"Twitt Successfull";
+                        break;
+                    default:
+                        break;
+                }
+                UIAlertController * alert=   [UIAlertController
+                                              alertControllerWithTitle:@"Twitter"
+                                              message:output
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                UIAlertAction* ok = [UIAlertAction
+                                     actionWithTitle:@"OK"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                     }];
+                [alert addAction:ok];
+            }];
+        }
         default:
             break;
     }
