@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface SecondViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
+{
+    MFMailComposeViewController *mailComposer;
+}
 
 @property (weak, nonatomic) IBOutlet UITableView *toDoCompletedListTable;
 @property (nonatomic, strong) NSMutableArray *toDoCompletedListViewModel;

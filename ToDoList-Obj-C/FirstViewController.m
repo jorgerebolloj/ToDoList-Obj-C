@@ -134,6 +134,28 @@
     self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
     self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
     [self.toDoPendingListTable reloadData];
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"ToDo Completed"
+                                  message:@""
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    [self presentViewController:alert animated:YES completion:nil];
+    [UIView animateWithDuration:7.0
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         alert.view.alpha = 0.0;
+                     }
+                     completion:^(BOOL finished){
+                         [UIView animateWithDuration:7.0
+                                               delay:0.0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              alert.view.alpha = 1.0;
+                                          }
+                                          completion:^(BOOL finished){
+                                              [alert dismissViewControllerAnimated:YES completion:nil];
+                                          }];
+                     }];
 }
 
 
@@ -212,31 +234,30 @@
         [self.filteredModel removeAllObjects];
     } else
         toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+    NSString *toDoTitle = [toDoPendingCellViewModel valueForKeyPath:@"title"];
+    NSString *toDoDescription = [toDoPendingCellViewModel valueForKeyPath:@"description"];
+    NSString *toDoModifiedDate = [toDoPendingCellViewModel valueForKeyPath:@"modifiedDate"];
+    NSString *toDoStatus = [toDoPendingCellViewModel valueForKeyPath:@"status"];
+    UIImage *image = [UIImage imageNamed:[toDoPendingCellViewModel valueForKeyPath:@"image"]];
+    NSString *message = [NSString stringWithFormat:@"<h1>%@</h1> \n<h2>%@</h2> \nModified date: %@ \nToDo status: %@", toDoTitle, toDoDescription, toDoModifiedDate, [toDoStatus intValue] == 0 ? @"Pending": @"Completed"];
     
     switch (index) {
         case 0:
         {
             NSLog(@"email button was pressed");
-            NSString *emailToDoTitle = [toDoPendingCellViewModel valueForKeyPath:@"title"];
-            NSString *emailToDoDescription = [toDoPendingCellViewModel valueForKeyPath:@"description"];
-            NSString *emailToDoModifiedDate = [toDoPendingCellViewModel valueForKeyPath:@"modifiedDate"];
-            NSString *emailToDoStatus = [toDoPendingCellViewModel valueForKeyPath:@"status"];
-            UIImage *image = [UIImage imageNamed:[toDoPendingCellViewModel valueForKeyPath:@"image"]];
-            NSString *messageBody = [NSString stringWithFormat:@"<h1>%@</h1> \n<h2>%@</h2> \n%@ \n%@", emailToDoTitle, emailToDoDescription, emailToDoModifiedDate, emailToDoStatus];
-            
             if ([MFMailComposeViewController canSendMail])
             {
                 NSData *pngData = UIImagePNGRepresentation(image);
                 
-                NSString *fileName = emailToDoTitle;
+                NSString *fileName = toDoTitle;
                 fileName = [fileName stringByAppendingPathExtension:@"png"];
                 [mailComposer addAttachmentData:pngData mimeType:@"image/png" fileName:fileName];
                 
                 NSArray *toRecipents = [NSArray arrayWithObject:@"jorgerebolloj@gmail.com"];
                 mailComposer = [[MFMailComposeViewController alloc]init];
                 mailComposer.mailComposeDelegate = self;
-                [mailComposer setSubject:emailToDoTitle];
-                [mailComposer setMessageBody:messageBody isHTML:YES];
+                [mailComposer setSubject:toDoTitle];
+                [mailComposer setMessageBody:message isHTML:YES];
                 [mailComposer setToRecipients:toRecipents];
                 [self presentViewController:mailComposer animated:YES completion:NULL];
             }
@@ -249,11 +270,6 @@
         case 1:
         {
             NSLog(@"sms button was pressed");
-            NSString *emailToDoTitle = [toDoPendingCellViewModel valueForKeyPath:@"title"];
-            NSString *emailToDoDescription = [toDoPendingCellViewModel valueForKeyPath:@"description"];
-            NSString *emailToDoModifiedDate = [toDoPendingCellViewModel valueForKeyPath:@"modifiedDate"];
-            NSString *emailToDoStatus = [toDoPendingCellViewModel valueForKeyPath:@"status"];
-            NSString *message = [NSString stringWithFormat:@"<h1>%@</h1> \n<h2>%@</h2> \n%@ \n%@", emailToDoTitle, emailToDoDescription, emailToDoModifiedDate, emailToDoStatus];
             NSArray *recipents = @[@"+524491507933"];
             if(![MFMessageComposeViewController canSendText]) {
                 UIAlertController * alert=   [UIAlertController
