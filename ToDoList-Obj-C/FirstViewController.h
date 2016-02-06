@@ -11,7 +11,7 @@
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
 
-@interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate>
+@interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, UITabBarControllerDelegate>
 {
     MFMailComposeViewController *mailComposer;
     MFMessageComposeViewController *smsComposer;
