@@ -165,7 +165,6 @@
                      }];
 }
 
-
 #pragma mark UITable Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -234,6 +233,8 @@
 
 // click event on left utility button
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index {
+    __weak typeof(self) weakSelf = self;
+    
     NSIndexPath *cellIndexPath = [self.toDoPendingListTable indexPathForCell:cell];
     NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
     if ([self.filteredModel count] != 0) {
@@ -241,6 +242,7 @@
         [self.filteredModel removeAllObjects];
     } else
         toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+    
     NSString *toDoTitle = [toDoPendingCellViewModel valueForKeyPath:@"title"];
     NSString *toDoDescription = [toDoPendingCellViewModel valueForKeyPath:@"description"];
     NSString *toDoModifiedDate = [toDoPendingCellViewModel valueForKeyPath:@"modifiedDate"];
@@ -254,20 +256,7 @@
             NSLog(@"email button was pressed");
             if (![MFMailComposeViewController canSendMail])
             {
-                UIAlertController * alert=   [UIAlertController
-                                              alertControllerWithTitle:@"Error"
-                                              message:@"This device doesn't support email"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"OK"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                [alert addAction:ok];
+                [self callAlertViewWithTitle:@"Error" andMessage:@"This device doesn't support email"];
                 return;
             }
             NSData *pngData = UIImagePNGRepresentation(image);
@@ -288,20 +277,7 @@
             NSLog(@"sms button was pressed");
             NSArray *recipents = @[@"+524491507933"];
             if(![MFMessageComposeViewController canSendText]) {
-                UIAlertController * alert=   [UIAlertController
-                                              alertControllerWithTitle:@"Error"
-                                              message:@"This device doesn't support SMS"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"OK"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                [alert addAction:ok];
+                [self callAlertViewWithTitle:@"Error" andMessage:@"This device doesn't support SMS"];
                 return;
             }
             smsComposer.messageComposeDelegate = self;
@@ -314,23 +290,9 @@
         {
             NSLog(@"facebook button was pressed");
             if(![SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
-                UIAlertController * alert=   [UIAlertController
-                                              alertControllerWithTitle:@"Error"
-                                              message:@"This device doesn't support Facebook"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"OK"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                [alert addAction:ok];
+                [self callAlertViewWithTitle:@"Error" andMessage:@"This device doesn't support Facebook"];
                 return;
             }
-            
             facebookSLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
             [facebookSLComposerSheet setInitialText:[NSString stringWithFormat:message,facebookSLComposerSheet.serviceType]];
             [facebookSLComposerSheet addImage:image];
@@ -348,43 +310,16 @@
                     default:
                         break;
                 }
-                UIAlertController * alert=   [UIAlertController
-                                              alertControllerWithTitle:@"Facebook"
-                                              message:output
-                                              preferredStyle:UIAlertControllerStyleAlert];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"OK"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                [alert addAction:ok];
+                [weakSelf callAlertViewWithTitle:@"Facebook" andMessage:output];
             }];
         }
         case 3:
         {
             NSLog(@"twitter button was pressed");
             if(![SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-                UIAlertController * alert=   [UIAlertController
-                                              alertControllerWithTitle:@"Error"
-                                              message:@"This device doesn't support Twitter"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"OK"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                [alert addAction:ok];
+                [self callAlertViewWithTitle:@"Error" andMessage:@"This device doesn't support Twitter"];
                 return;
             }
-            
             twitterSLComposerSheet = [[SLComposeViewController alloc] init];
             twitterSLComposerSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
             [twitterSLComposerSheet setInitialText:[NSString stringWithFormat:message,twitterSLComposerSheet.serviceType]];
@@ -403,20 +338,7 @@
                     default:
                         break;
                 }
-                UIAlertController * alert=   [UIAlertController
-                                              alertControllerWithTitle:@"Twitter"
-                                              message:output
-                                              preferredStyle:UIAlertControllerStyleAlert];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                UIAlertAction* ok = [UIAlertAction
-                                     actionWithTitle:@"OK"
-                                     style:UIAlertActionStyleDefault
-                                     handler:^(UIAlertAction * action)
-                                     {
-                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                     }];
-                [alert addAction:ok];
+                [weakSelf callAlertViewWithTitle:@"Twitter" andMessage:output];
             }];
         }
         default:
@@ -425,192 +347,51 @@
 }
 
 #pragma mark - sms compose delegate
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult) result
-{
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result error:(NSError *)error{
     switch (result) {
         case MessageComposeResultCancelled:
-        {
-            NSLog(@"You cancelled sending this SMS");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"SMS"
-                                          message:@"You cancelled sending this SMS"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"SMS" andMessage:@"You cancelled sending this SMS"];
             break;
-        }
         case MessageComposeResultFailed:
-        {
-            NSLog(@"SMS failed: An error occurred when trying to compose this SMS");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"SMS"
-                                          message:@"SMS failed: An error occurred when trying to compose this SMS"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"SMS" andMessage:@"SMS failed: An error occurred when trying to compose this SMS"];
             break;
-        }
         case MessageComposeResultSent:
-        {
-            NSLog(@"You sent the SMS!");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"SMS"
-                                          message:@"You sent the SMS!"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"SMS" andMessage:@"You sent the SMS!"];
             break;
-        }
         default:
-        {
-            NSLog(@"An error occurred when trying to compose this SMS");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"SMS"
-                                          message:@"An error occurred when trying to compose this SMS"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"SMS" andMessage:@"An error occurred when trying to compose this SMS"];
             break;
-        }
     }
-    
+    if (error)
+        NSLog(@"Error : %@",error);
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    
 }
 
 #pragma mark - mail compose delegate
 -(void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     switch (result) {
         case MFMailComposeResultSent:
-        {
-            NSLog(@"You sent the email");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"Email"
-                                          message:@"You sent the email"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"Email" andMessage:@"You sent the email"];
             break;
-        }
         case MFMailComposeResultSaved:
-        {
-            NSLog(@"You saved a draft of this email");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"Email"
-                                          message:@"You saved a draft of this email"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"Email" andMessage:@"You saved a draft of this email"];
             break;
-        }
         case MFMailComposeResultCancelled:
-        {
-            NSLog(@"You cancelled sending this email");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"Email"
-                                          message:@"You cancelled sending this email"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"Email" andMessage:@"You cancelled sending this email"];
             break;
-        }
         case MFMailComposeResultFailed:
-        {
-            NSLog(@"Email failed: An error occurred when trying to compose this email");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"Email"
-                                          message:@"Email failed: An error occurred when trying to compose this email"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"Email" andMessage:@"Email failed: An error occurred when trying to compose this email"];
             break;
-        }
         default:
-        {
-            NSLog(@"An error occurred when trying to compose this email");
-            UIAlertController * alert=   [UIAlertController
-                                          alertControllerWithTitle:@"Email"
-                                          message:@"An error occurred when trying to compose this email"
-                                          preferredStyle:UIAlertControllerStyleAlert];
-            
-            [self presentViewController:alert animated:YES completion:nil];
-            UIAlertAction* ok = [UIAlertAction
-                                 actionWithTitle:@"OK"
-                                 style:UIAlertActionStyleDefault
-                                 handler:^(UIAlertAction * action)
-                                 {
-                                     [alert dismissViewControllerAnimated:YES completion:nil];
-                                 }];
-            [alert addAction:ok];
+            [self callAlertViewWithTitle:@"Email" andMessage:@"An error occurred when trying to compose this email"];
             break;
-        }
     }
-    if (error) {
+    if (error)
         NSLog(@"Error : %@",error);
-    }
     [self dismissViewControllerAnimated:YES completion:NULL];
     
 }
@@ -675,19 +456,21 @@
  - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state {
  }*/
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    NSLog(@"Selected INDEX OF TAB-BAR ==> %i", tabBarController.selectedIndex);
+- (void)callAlertViewWithTitle:(NSString *)title andMessage:(NSString *)message {
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:message
+                                  preferredStyle:UIAlertControllerStyleAlert];
     
-    if (tabBarController.selectedIndex == 3) {
-        //[self getFeedsFromServer];
-    }
-    NSLog(@"controller class: %@", NSStringFromClass([viewController class]));
-    NSLog(@"controller title: %@", viewController.title);
-    
-    /*if (viewController == tabBarController.moreNavigationController)
-    {
-        tabBarController.moreNavigationController.delegate = self;
-    }*/
+    [self presentViewController:alert animated:YES completion:nil];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
 }
 
 
