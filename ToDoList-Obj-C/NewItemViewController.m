@@ -73,7 +73,6 @@
     [self.toDoDescriptionTextField setText: @""];
     self.navigationItem.title = @"Add new TODO";
     [self.toDoAddImageBtn setImage:[UIImage imageNamed:@"image512x512.png"] forState:UIControlStateNormal];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
     if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
         [self.toDoExistingPlaningItem removeAllObjects];
         [toDoBusiness.existingPlaningItem removeAllObjects];
