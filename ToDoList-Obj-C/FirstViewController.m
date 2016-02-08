@@ -36,11 +36,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIColor *greenBaseColor = [UIColor colorWithRed:161/255.0 green:212/255.0 blue:144/255.0 alpha:1];
+    UIColor *greenMediumColor = [UIColor colorWithRed:151/255.0 green:199/255.0 blue:135/255.0 alpha:1];
+    UIColor *greenDarkColor = [UIColor colorWithRed:138/255.0 green:181/255.0 blue:123/255.0 alpha:1];
+    
+    self.navigationController.navigationBar.tintColor = greenMediumColor;
+    
     [self.mSearchBar setDelegate:self];
     UITextField *textField = [self.mSearchBar valueForKey:@"_searchField"];
     textField.clearButtonMode = UITextFieldViewModeNever;
+    [self.mSearchBar setBarTintColor:greenBaseColor];
+    [self.mSearchBar setTintColor:greenDarkColor];
+    
     [self.toDoPendingListTable setDelegate:self];
     [self.toDoPendingListTable setDataSource:self];
+    self.toDoPendingListTable.backgroundColor = greenBaseColor;
+    UIView *emptyCellsSeparatorStyle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 5)];
+    emptyCellsSeparatorStyle.backgroundColor = greenDarkColor;
+    [self.toDoPendingListTable setTableFooterView:emptyCellsSeparatorStyle];
     
     self.toDoPendingListViewModel = [[NSMutableArray alloc]init];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
@@ -51,7 +65,7 @@
     [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
     
     self.filteredModel = [[NSMutableArray alloc] init];
-    //[self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardShown:) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -106,14 +120,7 @@
     
     toDoPendingTableViewCell.completeToDoBtn.tag = indexPath.row;
     [toDoPendingTableViewCell.completeToDoBtn addTarget:self action:@selector(pendingButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-
-    
-    UITableViewCell *cellView;
-    cellView = toDoPendingTableViewCell;
-    cellView.backgroundColor = [UIColor clearColor];
-    cellView.backgroundView = [[UIImageView alloc] init];
-    cellView.selectedBackgroundView = [[UIImageView alloc] init];
-    return cellView;
+    return toDoPendingTableViewCell;
 }
 
 - (void)pendingButtonClicked:(UIButton*)sender {
@@ -187,10 +194,9 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    if (searchText.length == 0) {
+    if (searchText.length == 0)
         [self.filteredModel removeAllObjects];
-        //[self.filteredModel addObjectsFromArray:[self.toDoPendingListViewModel mutableCopy]];
-    } else {
+    else {
         [self.filteredModel removeAllObjects];
         for (NSString *itemToDo in self.toDoPendingListViewModel) {
             NSString *stringToDoTitle = [[itemToDo valueForKeyPath:@"title"] description];
@@ -217,17 +223,18 @@
 #pragma mark - SWTableViewCell
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"edit64x64.png"]];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"delete64x64.png"]];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:151/255.0 green:199/255.0 blue:135/255.0 alpha:1] title:@"Edit"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f] title:@"Delete"];
+    
     return rightUtilityButtons;
 }
 
 - (NSArray *)leftButtons {
     NSMutableArray *leftUtilityButtons = [NSMutableArray new];
-    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"email64x64.png"]];
-    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"sms64x64.png"]];
-    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"facebook64x64.png"]];
-    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor clearColor] icon:[UIImage imageNamed:@"twitter64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:212/255.0 green:144/255.0 blue:161/255.0 alpha:1] icon:[UIImage imageNamed:@"email64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:212/255.0 green:144/255.0 blue:161/255.0 alpha:1] icon:[UIImage imageNamed:@"sms64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:212/255.0 green:144/255.0 blue:161/255.0 alpha:1] icon:[UIImage imageNamed:@"facebook64x64.png"]];
+    [leftUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:212/255.0 green:144/255.0 blue:161/255.0 alpha:1] icon:[UIImage imageNamed:@"twitter64x64.png"]];
     return leftUtilityButtons;
 }
 
