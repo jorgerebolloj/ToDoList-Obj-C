@@ -130,6 +130,13 @@
     [toDoBusiness completeToDo:self.toDoPendingListViewModel[toDoId]];
     
     [self.toDoPendingListViewModel removeObjectAtIndex:toDoId];
+    
+    
+    if (![[NSUserDefaults standardUserDefaults] arrayForKey:@"toDoCompletedList"]) {
+        NSMutableArray *toDoCompletedListViewModel = [[NSMutableArray alloc]init];
+        [toDoBusiness storePendingModel:toDoCompletedListViewModel];
+    }
+    
     [toDoBusiness storePendingModel:self.toDoPendingListViewModel];
     self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
     self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
