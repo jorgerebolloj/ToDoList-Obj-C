@@ -10,8 +10,9 @@
 #import <MessageUI/MessageUI.h>
 #import <Social/Social.h>
 #import <Accounts/Accounts.h>
+#import <SWTableViewCell.h>
 
-@interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, UITabBarControllerDelegate>
+@interface FirstViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MFMailComposeViewControllerDelegate, UITabBarControllerDelegate, SWTableViewCellDelegate, MFMessageComposeViewControllerDelegate>
 {
     MFMailComposeViewController *mailComposer;
     MFMessageComposeViewController *smsComposer;
