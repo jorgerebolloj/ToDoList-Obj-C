@@ -37,11 +37,18 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0 || [[toDoBusiness.existingCompletedItem allKeys] count] != 0) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
+        self.navigationItem.title = @"Edit TODO";
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     //reuse NewItemView to editItemView function
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0 || [[toDoBusiness.existingCompletedItem allKeys] count] != 0) {
-        self.navigationItem.title = @"Edit TODO";
         if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
             self.toDoExistingPlaningItem = [toDoBusiness.existingPlaningItem mutableCopy];
             [self.toDoTitleTextField setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"title"] description]];
@@ -55,7 +62,6 @@
             UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingCompletedItem valueForKeyPath:@"image"] description]];
             [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
         }
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
     }
 }
 
@@ -67,7 +73,7 @@
     [self.toDoDescriptionTextField setText: @""];
     self.navigationItem.title = @"Add new TODO";
     [self.toDoAddImageBtn setImage:[UIImage imageNamed:@"image512x512.png"] forState:UIControlStateNormal];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonSystemItemFastForward target:nil action:@selector(backAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
     if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
         [self.toDoExistingPlaningItem removeAllObjects];
         [toDoBusiness.existingPlaningItem removeAllObjects];
