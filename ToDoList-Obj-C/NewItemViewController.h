@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewItemViewController : UIViewController <UITextFieldDelegate>
+@interface NewItemViewController : UIViewController <UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *toDoTitleTextField;
 @property (weak, nonatomic) IBOutlet UIButton *toDoAddImageBtn;
@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIView *toDoNewItemView;
 @property (strong, nonatomic)   NSMutableDictionary *toDoExistingPlaningItem;
 @property (strong, nonatomic)   NSMutableDictionary *toDoExistingCompletedItem;
+@property (strong, nonatomic)   UIImagePickerController *imagePicker;
 
 - (IBAction)toDoAddImageBtn:(id)sender;
 - (IBAction)toDoStoreNewItemBtn:(id)sender;
