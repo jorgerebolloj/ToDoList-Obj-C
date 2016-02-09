@@ -26,6 +26,9 @@
 		30033DBC1C693C6E0079FCA3 /* email64x64.png in Resources */ = {isa = PBXBuildFile; fileRef = 30033DB61C693C6E0079FCA3 /* email64x64.png */; };
 		30033DC21C698FA80079FCA3 /* FullImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30033DC11C698FA80079FCA3 /* FullImageViewController.m */; };
 		30033DC61C69B5500079FCA3 /* ToDoInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30033DC51C69B5500079FCA3 /* ToDoInfoViewController.m */; };
+		30033DCA1C6A5D830079FCA3 /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 30033DC71C6A5D830079FCA3 /* Icon-120.png */; };
+		30033DCB1C6A5D830079FCA3 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 30033DC81C6A5D830079FCA3 /* iTunesArtwork.png */; };
+		30033DCC1C6A5D830079FCA3 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30033DC91C6A5D830079FCA3 /* iTunesArtwork@2x.png */; };
 		30FCF59B1C62CD7000F17871 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF59A1C62CD7000F17871 /* main.m */; };
 		30FCF59E1C62CD7000F17871 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF59D1C62CD7000F17871 /* AppDelegate.m */; };
 		30FCF5A11C62CD7000F17871 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FCF5A01C62CD7000F17871 /* FirstViewController.m */; };
@@ -66,6 +69,9 @@
 		30033DC11C698FA80079FCA3 /* FullImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullImageViewController.m; sourceTree = "<group>"; };
 		30033DC41C69B5500079FCA3 /* ToDoInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToDoInfoViewController.h; sourceTree = "<group>"; };
 		30033DC51C69B5500079FCA3 /* ToDoInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToDoInfoViewController.m; sourceTree = "<group>"; };
+		30033DC71C6A5D830079FCA3 /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-120.png"; path = "Resources/Icon-120.png"; sourceTree = SOURCE_ROOT; };
+		30033DC81C6A5D830079FCA3 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iTunesArtwork.png; path = Resources/iTunesArtwork.png; sourceTree = SOURCE_ROOT; };
+		30033DC91C6A5D830079FCA3 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iTunesArtwork@2x.png"; path = "Resources/iTunesArtwork@2x.png"; sourceTree = SOURCE_ROOT; };
 		30FCF5961C62CD7000F17871 /* ToDoList-Obj-C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDoList-Obj-C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30FCF59A1C62CD7000F17871 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		30FCF59C1C62CD7000F17871 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -231,6 +237,9 @@
 		30FCF5BC1C63051F00F17871 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				30033DC71C6A5D830079FCA3 /* Icon-120.png */,
+				30033DC81C6A5D830079FCA3 /* iTunesArtwork.png */,
+				30033DC91C6A5D830079FCA3 /* iTunesArtwork@2x.png */,
 				30033DB31C693C6E0079FCA3 /* twitter64x64.png */,
 				30033DB41C693C6E0079FCA3 /* sms64x64.png */,
 				30033DB51C693C6E0079FCA3 /* facebook64x64.png */,
@@ -358,12 +367,15 @@
 				30FCF5A71C62CD7000F17871 /* Main.storyboard in Resources */,
 				30033DA11C65A1CC0079FCA3 /* Icon-76@2x.png in Resources */,
 				30FCF5D51C631BEA00F17871 /* taskPending32x32.png in Resources */,
+				30033DCA1C6A5D830079FCA3 /* Icon-120.png in Resources */,
 				30FCF5CA1C630C6A00F17871 /* taskCompleted512x512.png in Resources */,
 				30033D991C65A1410079FCA3 /* Icon-Small@2x.png in Resources */,
 				30033DAC1C65A3E70079FCA3 /* splash.jpg in Resources */,
 				30033DB91C693C6E0079FCA3 /* twitter64x64.png in Resources */,
 				30033DBB1C693C6E0079FCA3 /* facebook64x64.png in Resources */,
 				30033D9E1C65A1A10079FCA3 /* Icon-40.png in Resources */,
+				30033DCC1C6A5D830079FCA3 /* iTunesArtwork@2x.png in Resources */,
+				30033DCB1C6A5D830079FCA3 /* iTunesArtwork.png in Resources */,
 				30033DBC1C693C6E0079FCA3 /* email64x64.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
