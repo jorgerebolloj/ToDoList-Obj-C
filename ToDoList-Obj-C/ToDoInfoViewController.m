@@ -1,23 +1,23 @@
 //
-//  FullImageViewController.m
+//  ToDoInfoViewController.m
 //  ToDoList-Obj-C
 //
 //  Created by Jorge Rebollo J on 08/02/16.
 //  Copyright © 2016 Regall. All rights reserved.
 //
 
-#import "FullImageViewController.h"
+#import "ToDoInfoViewController.h"
 #import "ToDoBusinessController.h"
 
-@interface FullImageViewController ()
+@interface ToDoInfoViewController ()
 
 @end
 
-@implementation FullImageViewController
+@implementation ToDoInfoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"Full image view";
+    self.navigationItem.title = @"ToDo info";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,21 +29,25 @@
     if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0 || [[toDoBusiness.existingCompletedItem allKeys] count] != 0) {
         if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
             self.toDoExistingPlaningItem = [toDoBusiness.existingPlaningItem mutableCopy];
+            [self.titleLabel setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"title"] description]];
+            [self.descriptionTextView setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingPlaningItem valueForKeyPath:@"description"] description] : @""];
             NSData* imageData = [self.toDoExistingPlaningItem valueForKeyPath:@"image"];
-            UIImage *image = [[UIImage alloc] initWithData:imageData];
-            self.fullImageView.image = image;
+            self.imagetView.image = [UIImage imageWithData:imageData];
         } else {
             self.toDoExistingCompletedItem = [toDoBusiness.existingCompletedItem mutableCopy];
+            [self.titleLabel setText:[[self.toDoExistingCompletedItem valueForKeyPath:@"title"] description]];
+            [self.descriptionTextView setText:[[self.toDoExistingCompletedItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingCompletedItem valueForKeyPath:@"description"] description] : @""];
             NSData* imageData = [self.toDoExistingCompletedItem valueForKeyPath:@"image"];
-            UIImage *image = [[UIImage alloc] initWithData:imageData];
-            self.fullImageView.image = image;
+            self.imagetView.image = [UIImage imageWithData:imageData];
         }
     }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
-    self.fullImageView.image = nil;
+    [self.titleLabel setText:@""];
+    [self.descriptionTextView setText:@""];
+    self.imagetView.image = nil;
     if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
         [self.toDoExistingPlaningItem removeAllObjects];
         [toDoBusiness.existingPlaningItem removeAllObjects];

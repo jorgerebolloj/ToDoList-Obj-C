@@ -20,7 +20,7 @@
     [super viewDidLoad];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     self.dateString = [toDoBusiness dateTimeConfiguration];
-    self.navigationItem.title = @"Add new TODO";
+    self.navigationItem.title = @"Add new ToDo";
     self.toDoNewItem = [[NSMutableDictionary alloc]init];
     
     self.toDoTitleTextField.delegate=self;
@@ -45,7 +45,7 @@
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0 || [[toDoBusiness.existingCompletedItem allKeys] count] != 0) {
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:nil action:@selector(backAction)];
-        self.navigationItem.title = @"Edit TODO";
+        self.navigationItem.title = @"Edit ToDo";
     }
 }
 
@@ -83,7 +83,7 @@
     [self.toDoDescriptionTextField resignFirstResponder];
     [self.toDoTitleTextField setText: @""];
     [self.toDoDescriptionTextField setText: @""];
-    self.navigationItem.title = @"Add new TODO";
+    self.navigationItem.title = @"Add new ToDo";
     [self.toDoAddImageBtn setImage:[UIImage imageNamed:@"image512x512.png"] forState:UIControlStateNormal];
     if ([toDoBusiness.originList isEqualToString:@"PlaningList"]) {
         [self.toDoExistingPlaningItem removeAllObjects];
