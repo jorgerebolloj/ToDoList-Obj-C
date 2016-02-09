@@ -20,6 +20,7 @@
 @property (strong, nonatomic)   NSMutableDictionary *toDoExistingPlaningItem;
 @property (strong, nonatomic)   NSMutableDictionary *toDoExistingCompletedItem;
 @property (strong, nonatomic)   UIImagePickerController *imagePicker;
+@property (strong, nonatomic) UIImage *tempImage;
 
 - (IBAction)toDoAddImageBtn:(id)sender;
 - (IBAction)toDoStoreNewItemBtn:(id)sender;
