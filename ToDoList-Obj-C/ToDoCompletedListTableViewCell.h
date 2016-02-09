@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *statusItemButton;
 @property (weak, nonatomic) IBOutlet UILabel *itemTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateItemLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *imageItemImage;
-@property (weak, nonatomic) IBOutlet UIButton *pendingToDoBtn;
+@property (weak, nonatomic) IBOutlet UIButton *fullImageBtn;
 
 @end

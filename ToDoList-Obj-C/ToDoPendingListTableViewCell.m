@@ -25,11 +25,12 @@
 - (void)reloadData {
     UIImage *pendingBtnImage = [UIImage imageNamed:@"taskCompleted512x512.png"];
     if ([[self.toDoPendingModel valueForKeyPath:@"status"] integerValue] == 1)
-        [self.statusItemButton setBackgroundImage:pendingBtnImage forState:UIControlStateSelected];
+        [self.statusItemButton setBackgroundImage:pendingBtnImage forState:UIControlStateNormal];
     [self.itemTitleLabel setText:[[self.toDoPendingModel valueForKeyPath:@"title"] description]];
     [self.dateItemLabel setText:[NSString stringWithFormat:@"Modified: %@",[[self.toDoPendingModel valueForKeyPath:@"modifiedDate"] description]]];
     NSData* imageData = [self.toDoPendingModel valueForKeyPath:@"image"];
-    self.imageItemImage.image = [UIImage imageWithData:imageData];
+    UIImage *image = [[UIImage alloc] initWithData:imageData];
+    [self.fullImageBtn setBackgroundImage:image forState:UIControlStateNormal];
 }
 
 @end

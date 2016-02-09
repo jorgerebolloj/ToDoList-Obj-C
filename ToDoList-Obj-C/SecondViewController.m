@@ -119,8 +119,10 @@
         [toDoCompletedTableViewCell setToDoCompletedListModel:toDoCompletedCellViewModel];
     }
     
-    toDoCompletedTableViewCell.pendingToDoBtn.tag = indexPath.row;
-    [toDoCompletedTableViewCell.pendingToDoBtn addTarget:self action:@selector(completedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    toDoCompletedTableViewCell.statusItemButton.tag = indexPath.row;
+    [toDoCompletedTableViewCell.statusItemButton addTarget:self action:@selector(completedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    toDoCompletedTableViewCell.fullImageBtn.tag = indexPath.row;
+    [toDoCompletedTableViewCell.fullImageBtn addTarget:self action:@selector(fullImageButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     return toDoCompletedTableViewCell;
 }
 
@@ -165,6 +167,21 @@
                                               [alert dismissViewControllerAnimated:YES completion:nil];
                                           }];
                      }];
+}
+
+- (void)fullImageButtonClicked:(UIButton*)sender {
+    NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
+    int toDoId = 0;
+    if ([self.filteredModel2 count] != 0) {
+        toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:sender.tag] mutableCopy];
+        [self.filteredModel2 removeAllObjects];
+    } else
+        toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:sender.tag] mutableCopy];
+    
+    toDoId = [[toDoCompletedCellViewModel valueForKeyPath:@"id"]intValue];
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    [toDoBusiness setExistingPendingItemToEditWithSelecteRow:toDoId andOriginList:@"PlaningList"];
+    [self performSegueWithIdentifier:@"showCompletedFullImage" sender:self];
 }
 
 #pragma mark UITable Delegate
@@ -231,18 +248,18 @@
     __weak typeof(self) weakSelf = self;
     
     NSIndexPath *cellIndexPath = [self.toDoCompletedListTable indexPathForCell:cell];
-    NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *toDoCompletedCellViewModel = [[NSMutableDictionary alloc]init];
     if ([self.filteredModel2 count] != 0) {
-        toDoPendingCellViewModel = [[self.filteredModel2 objectAtIndex:cellIndexPath.row] mutableCopy];
+        toDoCompletedCellViewModel = [[self.filteredModel2 objectAtIndex:cellIndexPath.row] mutableCopy];
         [self.filteredModel2 removeAllObjects];
     } else
-        toDoPendingCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
+        toDoCompletedCellViewModel = [[self.toDoCompletedListViewModel objectAtIndex:cellIndexPath.row] mutableCopy];
     
-    NSString *toDoTitle = [toDoPendingCellViewModel valueForKeyPath:@"title"];
-    NSString *toDoDescription = [toDoPendingCellViewModel valueForKeyPath:@"description"];
-    NSString *toDoModifiedDate = [toDoPendingCellViewModel valueForKeyPath:@"modifiedDate"];
-    NSString *toDoStatus = [toDoPendingCellViewModel valueForKeyPath:@"status"];
-    UIImage *image = [UIImage imageNamed:[toDoPendingCellViewModel valueForKeyPath:@"image"]];
+    NSString *toDoTitle = [toDoCompletedCellViewModel valueForKeyPath:@"title"];
+    NSString *toDoDescription = [toDoCompletedCellViewModel valueForKeyPath:@"description"];
+    NSString *toDoModifiedDate = [toDoCompletedCellViewModel valueForKeyPath:@"modifiedDate"];
+    NSString *toDoStatus = [toDoCompletedCellViewModel valueForKeyPath:@"status"];
+    UIImage *image = [UIImage imageNamed:[toDoCompletedCellViewModel valueForKeyPath:@"image"]];
     NSString *message = [NSString stringWithFormat:@"<h1>%@</h1> \n<h2>%@</h2> \nModified date: %@ \nToDo status: %@", toDoTitle, toDoDescription, toDoModifiedDate, [toDoStatus intValue] == 0 ? @"Pending": @"Completed"];
     
     switch (index) {

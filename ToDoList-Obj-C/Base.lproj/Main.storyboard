@@ -41,20 +41,12 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last modified date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgL-hK-V2e">
-                                                    <rect key="frame" x="80" y="55" width="98" height="14"/>
+                                                    <rect key="frame" x="80" y="55" width="168" height="14"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image512x512.png" translatesAutoresizingMaskIntoConstraints="NO" id="f4M-uC-j7J">
-                                                    <rect key="frame" x="256" y="8" width="64" height="64"/>
-                                                    <animations/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="Yqp-Wh-Nvg"/>
-                                                        <constraint firstAttribute="height" constant="64" id="uKq-a3-bYx"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQ9-IA-ePe">
                                                     <rect key="frame" x="8" y="8" width="64" height="64"/>
                                                     <animations/>
@@ -65,35 +57,43 @@
                                                     <state key="normal" backgroundImage="taskPending512x512.png"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hmc-Mo-75C">
-                                                    <rect key="frame" x="80" y="8" width="77" height="21"/>
+                                                    <rect key="frame" x="80" y="8" width="168" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                                     <color key="textColor" red="0.14509803921568629" green="0.30980392156862746" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cj-sd-P6g">
+                                                    <rect key="frame" x="256" y="8" width="64" height="64"/>
+                                                    <animations/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="64" id="ABT-bm-fsF"/>
+                                                    </constraints>
+                                                </button>
                                             </subviews>
                                             <animations/>
                                             <constraints>
-                                                <constraint firstItem="f4M-uC-j7J" firstAttribute="bottom" secondItem="tna-zi-5x6" secondAttribute="bottomMargin" id="2XK-JJ-66O"/>
-                                                <constraint firstItem="f4M-uC-j7J" firstAttribute="trailing" secondItem="tna-zi-5x6" secondAttribute="trailingMargin" id="3YI-Z6-2fY"/>
                                                 <constraint firstItem="PQ9-IA-ePe" firstAttribute="bottom" secondItem="tna-zi-5x6" secondAttribute="bottomMargin" id="E8a-8Z-HEZ"/>
+                                                <constraint firstItem="0cj-sd-P6g" firstAttribute="bottom" secondItem="PQ9-IA-ePe" secondAttribute="bottom" id="EnL-Yz-876"/>
+                                                <constraint firstItem="0cj-sd-P6g" firstAttribute="leading" secondItem="hmc-Mo-75C" secondAttribute="trailing" constant="8" symbolic="YES" id="Goj-91-81h"/>
                                                 <constraint firstItem="hmc-Mo-75C" firstAttribute="top" secondItem="tna-zi-5x6" secondAttribute="topMargin" id="Ih7-ld-O3N"/>
                                                 <constraint firstItem="pgL-hK-V2e" firstAttribute="leading" secondItem="PQ9-IA-ePe" secondAttribute="trailing" constant="8" id="a8f-V3-6PA"/>
+                                                <constraint firstItem="0cj-sd-P6g" firstAttribute="trailing" secondItem="tna-zi-5x6" secondAttribute="trailingMargin" id="aA2-zu-pjk"/>
                                                 <constraint firstItem="hmc-Mo-75C" firstAttribute="leading" secondItem="PQ9-IA-ePe" secondAttribute="trailing" constant="8" id="cZT-m8-tyR"/>
                                                 <constraint firstItem="PQ9-IA-ePe" firstAttribute="top" secondItem="tna-zi-5x6" secondAttribute="topMargin" id="ezW-Tg-6yL"/>
-                                                <constraint firstItem="f4M-uC-j7J" firstAttribute="top" secondItem="tna-zi-5x6" secondAttribute="topMargin" id="jZQ-NL-ENF"/>
                                                 <constraint firstItem="PQ9-IA-ePe" firstAttribute="leading" secondItem="tna-zi-5x6" secondAttribute="leadingMargin" id="nSz-5a-C4G"/>
+                                                <constraint firstItem="0cj-sd-P6g" firstAttribute="leading" secondItem="pgL-hK-V2e" secondAttribute="trailing" constant="8" symbolic="YES" id="qfY-ge-wjZ"/>
+                                                <constraint firstItem="0cj-sd-P6g" firstAttribute="top" secondItem="hmc-Mo-75C" secondAttribute="top" id="t76-b6-WXB"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="pgL-hK-V2e" secondAttribute="bottom" constant="3" id="u0A-Pe-z0Y"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
-                                            <outlet property="completeToDoBtn" destination="PQ9-IA-ePe" id="Cjc-Ha-kvr"/>
                                             <outlet property="dateItemLabel" destination="pgL-hK-V2e" id="cRp-9x-WgN"/>
-                                            <outlet property="imageItemImage" destination="f4M-uC-j7J" id="LiP-DD-xIu"/>
+                                            <outlet property="fullImageBtn" destination="0cj-sd-P6g" id="CC9-Ql-wy1"/>
                                             <outlet property="itemTitleLabel" destination="hmc-Mo-75C" id="xgl-X2-H3X"/>
                                             <outlet property="statusItemButton" destination="PQ9-IA-ePe" id="CYm-oU-hpq"/>
-                                            <segue destination="n9P-gH-Z2y" kind="show" identifier="singleToDoViewSegue" id="zKj-Fc-O3x"/>
+                                            <segue destination="w24-tI-Uln" kind="show" identifier="showPendingFullImage" id="3a8-41-BQL"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -120,6 +120,7 @@
                     <connections>
                         <outlet property="mSearchBar" destination="QXD-XE-CBR" id="0hF-Ys-XXv"/>
                         <outlet property="toDoPendingListTable" destination="Cx7-Cc-Bl0" id="KRy-xE-1YC"/>
+                        <segue destination="n9P-gH-Z2y" kind="show" identifier="singleToDoViewSegue" id="Vtg-4h-qmq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -223,7 +224,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="orv-2S-beU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1790" y="-320"/>
+            <point key="canvasLocation" x="1917" y="0.0"/>
+        </scene>
+        <!--Full Image View Controller-->
+        <scene sceneID="BFi-a5-CAm">
+            <objects>
+                <viewController id="w24-tI-Uln" customClass="FullImageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4we-lg-hTA"/>
+                        <viewControllerLayoutGuide type="bottom" id="eDf-pf-pRP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Oq7-Jr-nYd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y35-Vx-oTL">
+                                <rect key="frame" x="-8" y="64" width="336" height="455"/>
+                                <animations/>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Y35-Vx-oTL" secondAttribute="trailing" constant="-24" id="4iE-7P-4ae"/>
+                            <constraint firstItem="Y35-Vx-oTL" firstAttribute="top" secondItem="4we-lg-hTA" secondAttribute="bottom" id="GNs-Xy-Ch2"/>
+                            <constraint firstItem="Y35-Vx-oTL" firstAttribute="leading" secondItem="Oq7-Jr-nYd" secondAttribute="leadingMargin" constant="-24" id="hob-nw-n7N"/>
+                            <constraint firstItem="eDf-pf-pRP" firstAttribute="top" secondItem="Y35-Vx-oTL" secondAttribute="bottom" id="orX-GV-b2v"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="fullImageView" destination="Y35-Vx-oTL" id="cGn-ID-Noh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="USe-68-ZHc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1304" y="-990"/>
         </scene>
         <!--My completed TODOs-->
         <scene sceneID="wg7-f3-ORb">
@@ -256,7 +292,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last modified date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Du-dS-4y1">
-                                                    <rect key="frame" x="80" y="55" width="98" height="14"/>
+                                                    <rect key="frame" x="80" y="55" width="168" height="14"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -272,43 +308,43 @@
                                                     <state key="normal" backgroundImage="taskCompleted512x512.png"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="27U-LD-MQh">
-                                                    <rect key="frame" x="80" y="8" width="77" height="21"/>
+                                                    <rect key="frame" x="80" y="8" width="168" height="21"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                                     <color key="textColor" red="0.1450980392" green="0.30980392159999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image512x512.png" translatesAutoresizingMaskIntoConstraints="NO" id="26d-MF-1jr">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l9B-s5-fNv">
                                                     <rect key="frame" x="256" y="8" width="64" height="64"/>
                                                     <animations/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="4WZ-W9-8t6"/>
-                                                        <constraint firstAttribute="height" constant="64" id="ROG-cZ-cmz"/>
+                                                        <constraint firstAttribute="width" constant="64" id="6al-ya-2dY"/>
                                                     </constraints>
-                                                </imageView>
+                                                </button>
                                             </subviews>
                                             <animations/>
                                             <constraints>
+                                                <constraint firstItem="l9B-s5-fNv" firstAttribute="leading" secondItem="27U-LD-MQh" secondAttribute="trailing" constant="8" symbolic="YES" id="9kZ-KL-BKG"/>
                                                 <constraint firstItem="27U-LD-MQh" firstAttribute="top" secondItem="VPl-Ty-vei" secondAttribute="topMargin" id="FAl-EP-EI7"/>
                                                 <constraint firstItem="EH5-xk-Q46" firstAttribute="top" secondItem="VPl-Ty-vei" secondAttribute="topMargin" id="Q6t-pE-SSM"/>
-                                                <constraint firstItem="26d-MF-1jr" firstAttribute="top" secondItem="VPl-Ty-vei" secondAttribute="topMargin" id="QsL-Ub-A8D"/>
                                                 <constraint firstItem="EH5-xk-Q46" firstAttribute="bottom" secondItem="VPl-Ty-vei" secondAttribute="bottomMargin" id="RY1-Km-gFD"/>
                                                 <constraint firstItem="7Du-dS-4y1" firstAttribute="leading" secondItem="EH5-xk-Q46" secondAttribute="trailing" constant="8" id="V3B-Op-asH"/>
-                                                <constraint firstItem="26d-MF-1jr" firstAttribute="trailing" secondItem="VPl-Ty-vei" secondAttribute="trailingMargin" id="WUL-te-yfJ"/>
+                                                <constraint firstItem="l9B-s5-fNv" firstAttribute="leading" secondItem="7Du-dS-4y1" secondAttribute="trailing" constant="8" symbolic="YES" id="VuK-km-RQO"/>
                                                 <constraint firstItem="27U-LD-MQh" firstAttribute="leading" secondItem="EH5-xk-Q46" secondAttribute="trailing" constant="8" id="Wxu-9Q-iSy"/>
-                                                <constraint firstItem="26d-MF-1jr" firstAttribute="bottom" secondItem="VPl-Ty-vei" secondAttribute="bottomMargin" id="Yfa-dh-9Vr"/>
+                                                <constraint firstItem="l9B-s5-fNv" firstAttribute="bottom" secondItem="EH5-xk-Q46" secondAttribute="bottom" id="d8F-P3-bJm"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="7Du-dS-4y1" secondAttribute="bottom" constant="3" id="deQ-O4-tV7"/>
+                                                <constraint firstItem="l9B-s5-fNv" firstAttribute="trailing" secondItem="VPl-Ty-vei" secondAttribute="trailingMargin" id="q8S-6l-Cd1"/>
+                                                <constraint firstItem="l9B-s5-fNv" firstAttribute="top" secondItem="27U-LD-MQh" secondAttribute="top" id="vsk-DW-wz2"/>
                                                 <constraint firstItem="EH5-xk-Q46" firstAttribute="leading" secondItem="VPl-Ty-vei" secondAttribute="leadingMargin" id="wu0-VO-rcH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
                                             <outlet property="dateItemLabel" destination="7Du-dS-4y1" id="0pp-4l-ev3"/>
-                                            <outlet property="imageItemImage" destination="26d-MF-1jr" id="ldV-qD-1b3"/>
+                                            <outlet property="fullImageBtn" destination="l9B-s5-fNv" id="ChE-Kk-QrA"/>
                                             <outlet property="itemTitleLabel" destination="27U-LD-MQh" id="UT4-Mn-cas"/>
-                                            <outlet property="pendingToDoBtn" destination="EH5-xk-Q46" id="j2q-X2-teW"/>
                                             <outlet property="statusItemButton" destination="EH5-xk-Q46" id="4IF-bi-ax0"/>
-                                            <segue destination="n9P-gH-Z2y" kind="show" identifier="singleCompletedToDoViewSegue" id="5Dj-QK-zA0"/>
+                                            <segue destination="w24-tI-Uln" kind="show" identifier="showCompletedFullImage" id="qT3-3P-6Jc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -328,6 +364,7 @@
                     <connections>
                         <outlet property="mSearchBar2" destination="Cqg-pa-b8e" id="L7v-sK-Buy"/>
                         <outlet property="toDoCompletedListTable" destination="xbF-Rj-JLc" id="MEM-7l-ED7"/>
+                        <segue destination="n9P-gH-Z2y" kind="show" identifier="singleCompletedToDoViewSegue" id="Ydb-mc-Lsq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
@@ -415,6 +452,7 @@
         <image name="taskPending512x512.png" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zKj-Fc-O3x"/>
+        <segue reference="qT3-3P-6Jc"/>
+        <segue reference="Ydb-mc-Lsq"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,7 +10,6 @@
 #import "ToDoPendingListTableViewCell.h"
 #import "ToDoBusinessController.h"
 
-
 @interface FirstViewController ()
 
 @end
@@ -119,8 +118,10 @@
         [toDoPendingTableViewCell setToDoPendingListModel:toDoPendingCellViewModel];
     }
     
-    toDoPendingTableViewCell.completeToDoBtn.tag = indexPath.row;
-    [toDoPendingTableViewCell.completeToDoBtn addTarget:self action:@selector(pendingButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    toDoPendingTableViewCell.statusItemButton.tag = indexPath.row;
+    [toDoPendingTableViewCell.statusItemButton addTarget:self action:@selector(pendingButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    toDoPendingTableViewCell.fullImageBtn.tag = indexPath.row;
+    [toDoPendingTableViewCell.fullImageBtn addTarget:self action:@selector(fullImageButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     return toDoPendingTableViewCell;
 }
 
@@ -171,6 +172,21 @@
                                               [alert dismissViewControllerAnimated:YES completion:nil];
                                           }];
                      }];
+}
+
+- (void)fullImageButtonClicked:(UIButton*)sender {
+    NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
+    int toDoId = 0;
+    if ([self.filteredModel count] != 0) {
+        toDoPendingCellViewModel = [[self.filteredModel objectAtIndex:sender.tag] mutableCopy];
+        [self.filteredModel removeAllObjects];
+    } else
+        toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:sender.tag] mutableCopy];
+    
+    toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"]intValue];
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    [toDoBusiness setExistingPendingItemToEditWithSelecteRow:toDoId andOriginList:@"PlaningList"];
+    [self performSegueWithIdentifier:@"showPendingFullImage" sender:self];
 }
 
 #pragma mark UITable Delegate
