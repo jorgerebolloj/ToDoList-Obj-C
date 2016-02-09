@@ -191,7 +191,18 @@
 
 #pragma mark UITable Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSMutableDictionary *toDoPendingCellViewModel = [[NSMutableDictionary alloc]init];
+    int toDoId = 0;
+    if ([self.filteredModel count] != 0) {
+        toDoPendingCellViewModel = [[self.filteredModel objectAtIndex:indexPath.row] mutableCopy];
+        [self.filteredModel removeAllObjects];
+    } else
+        toDoPendingCellViewModel = [[self.toDoPendingListViewModel objectAtIndex:indexPath.row] mutableCopy];
     
+    toDoId = [[toDoPendingCellViewModel valueForKeyPath:@"id"]intValue];
+    ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
+    [toDoBusiness setExistingPendingItemToEditWithSelecteRow:toDoId andOriginList:@"PlaningList"];
+    [self performSegueWithIdentifier:@"showPendingToDoInfo" sender:self];
 }
 
 - (IBAction)toDoNewItemBtn_Cmd:(id)sender {
