@@ -57,14 +57,22 @@
             self.toDoExistingPlaningItem = [toDoBusiness.existingPlaningItem mutableCopy];
             [self.toDoTitleTextField setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"title"] description]];
             [self.toDoDescriptionTextField setText:[[self.toDoExistingPlaningItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingPlaningItem valueForKeyPath:@"description"] description] : @""];
-            UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingPlaningItem valueForKeyPath:@"image"] description]];
-            [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
+            if (self.tempImage)
+                [self.toDoAddImageBtn setImage:self.tempImage forState:UIControlStateNormal];
+            else {
+                NSData* imageData = [self.toDoExistingPlaningItem valueForKeyPath:@"image"];
+                [self.toDoAddImageBtn setImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
+            }
         } else {
             self.toDoExistingCompletedItem = [toDoBusiness.existingCompletedItem mutableCopy];
             [self.toDoTitleTextField setText:[[self.toDoExistingCompletedItem valueForKeyPath:@"title"] description]];
             [self.toDoDescriptionTextField setText:[[self.toDoExistingCompletedItem valueForKeyPath:@"description"] description] ? [[self.toDoExistingCompletedItem valueForKeyPath:@"description"] description] : @""];
-            UIImage *btnImage = [UIImage imageNamed:[[self.toDoExistingCompletedItem valueForKeyPath:@"image"] description]];
-            [self.toDoAddImageBtn setImage:btnImage forState:UIControlStateNormal];
+            if (self.tempImage)
+                [self.toDoAddImageBtn setImage:self.tempImage forState:UIControlStateNormal];
+            else {
+                NSData* imageData = [self.toDoExistingCompletedItem valueForKeyPath:@"image"];
+                [self.toDoAddImageBtn setImage:[UIImage imageWithData:imageData] forState:UIControlStateNormal];
+            }
         }
     }
 }
@@ -139,7 +147,9 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
     [self.toDoAddImageBtn setImage:image forState:UIControlStateNormal];
-    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    self.tempImage = image;
+    if (self.imagePicker.sourceType == UIImagePickerControllerSourceTypeCamera)
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -159,17 +169,21 @@
     [self.toDoNewItem setObject:self.toDoTitleTextField.text forKey:@"title"];
     [self.toDoNewItem setObject:self.toDoDescriptionTextField.text forKey:@"description"];
     [self.toDoNewItem setObject:self.dateString forKey:@"modifiedDate"];
-    [self.toDoNewItem setObject:@0 forKey:@"status"];
     [self.toDoNewItem setObject:UIImagePNGRepresentation(self.toDoAddImageBtn.imageView.image) forKey:@"image"];
     if (![self.toDoTitleTextField.text isEqualToString:@""] && ![self.dateString isEqualToString:@""]) {
         if ([toDoBusiness.originList isEqualToString:@"CompletedList"]) {
             if ([[toDoBusiness.existingCompletedItem allKeys] count] != 0)
+                [self.toDoNewItem setObject:[self.toDoExistingCompletedItem valueForKeyPath:@"status"] forKey:@"status"];
                 [toDoBusiness editExistingCompletedItem:self.toDoNewItem];
         } else {
-            if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0)
+            if ([[toDoBusiness.existingPlaningItem allKeys] count] != 0){
+                [self.toDoNewItem setObject:[self.toDoExistingPlaningItem valueForKeyPath:@"status"] forKey:@"status"];
                 [toDoBusiness editExistingPlaningItem:self.toDoNewItem];
-            else
+            }
+            else {
+                [self.toDoNewItem setObject:@0 forKey:@"status"];
                 [toDoBusiness storeNewItem:self.toDoNewItem];
+            }
         }
         [self backAction];
     }

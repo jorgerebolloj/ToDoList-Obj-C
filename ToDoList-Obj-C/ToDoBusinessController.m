@@ -80,6 +80,7 @@ int currentCompletedItemRow = 0;
 
 - (void)storeNewItem:(NSMutableDictionary *)newItem {
     NSMutableArray *storedToDoPendingList = [[self requestPendingModel] mutableCopy];
+    [newItem setObject:@0 forKey:@"status"];
     [storedToDoPendingList addObject:newItem];
     storedToDoPendingList = [self setDate:storedToDoPendingList];
     [self storePendingModel:storedToDoPendingList];
@@ -87,6 +88,7 @@ int currentCompletedItemRow = 0;
 
 - (void)completeToDo:(NSMutableDictionary *)newItem {
     NSMutableArray *storedToDoCompleteList = [[self requestCompletedModel] mutableCopy];
+    [newItem setObject:@1 forKey:@"status"];
     [storedToDoCompleteList addObject:newItem];
     storedToDoCompleteList = [self setDate:storedToDoCompleteList];
     [self storeCompletedModel:storedToDoCompleteList];

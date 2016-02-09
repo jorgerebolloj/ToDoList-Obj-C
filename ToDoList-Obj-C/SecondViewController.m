@@ -75,6 +75,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self.filteredModel2  removeAllObjects];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     self.toDoCompletedListViewModel = [toDoBusiness requestCompletedModel];
     self.toDoCompletedListViewModel = [toDoBusiness setDate:self.toDoCompletedListViewModel];
