@@ -28,13 +28,10 @@ Cocoa Pods is used to implement the external project SWTableViewCell (Chris Wend
 
 ###Pending ToDo's list
 ####Adding a ToDo and set it
-<p align="center"><img src="http://moreon.org.mx/ios/todoit/03-Pending ToDo's list.png"/><img src="http://moreon.org.mx/ios/todoit/04-Add new ToDo.png"/><img src="http://moreon.org.mx/ios/todoit/05-Adding a ToDo.png"/><img src="http://moreon.org.mx/ios/todoit/06-Add an image.png"/><img src="http://moreon.org.mx/ios/todoit/07-Image added.png"/></p>
+<p align="center"><img src="http://moreon.org.mx/ios/todoit/03-Pending ToDo's list.png"/><img src="http://moreon.org.mx/ios/todoit/04-Add new ToDo.png"/><img src="http://moreon.org.mx/ios/todoit/05-Adding a ToDo.png"/><img src="http://moreon.org.mx/ios/todoit/06-Add an image.png"/><img src="http://moreon.org.mx/ios/todoit/07-Image added.png"/><img src="http://moreon.org.mx/ios/todoit/07-Pending ToDo.png"/></p>
 
-####Edit and delete options
-<p align="center"><img src="http://moreon.org.mx/ios/todoit/08-Pending ToDo edit and delete options.png"/></p>
-
-####Sharing options
-<p align="center"><img src="http://moreon.org.mx/ios/todoit/09-Pending ToDo sharing options.png"/></p>
+####Edit, delete and sharing options
+<p align="center"><img src="http://moreon.org.mx/ios/todoit/08-Pending ToDo edit and delete options.png"/><img src="http://moreon.org.mx/ios/todoit/09-Pending ToDo sharing options.png"/></p>
 
 ####Set ToDo as completed
 <p align="center"><img src="http://moreon.org.mx/ios/todoit/11-Set as Complete ToDo.png"/><img src="http://moreon.org.mx/ios/todoit/12-ToDo completed.png"/></p>
@@ -44,11 +41,9 @@ Cocoa Pods is used to implement the external project SWTableViewCell (Chris Wend
 
 ###Completed ToDo's list
 <p align="center"><img src="http://moreon.org.mx/ios/todoit/13-Completed ToDo's list.png"/></p>
-####Edit and delete options
-<p align="center"><img src="http://moreon.org.mx/ios/todoit/14-Completed ToDo edit and delete options.png"/></p>
 
-####Sharing options
-<p align="center"><img src="http://moreon.org.mx/ios/todoit/15-Completed ToDo sharing options.png"/></p>
+####Edit, delete and sharing options
+<p align="center"><img src="http://moreon.org.mx/ios/todoit/14-Completed ToDo edit and delete options.png"/><img src="http://moreon.org.mx/ios/todoit/15-Completed ToDo sharing options.png"/></p>
 
 ####Set ToDo as planned again
 <p align="center"><img src="http://moreon.org.mx/ios/todoit/16-Set as planned ToDo.png"/><img src="http://moreon.org.mx/ios/todoit/17-ToDo planned again.png"/></p>
