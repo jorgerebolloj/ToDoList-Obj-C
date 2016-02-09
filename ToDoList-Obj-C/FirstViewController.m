@@ -75,6 +75,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self.filteredModel  removeAllObjects];
     ToDoBusinessController *toDoBusiness = [ToDoBusinessController sharedInstance];
     self.toDoPendingListViewModel = [toDoBusiness requestPendingModel];
     self.toDoPendingListViewModel = [toDoBusiness setDate:self.toDoPendingListViewModel];
