@@ -23,7 +23,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="QXD-XE-CBR">
-                                    <rect key="frame" x="0.0" y="0.0" width="336" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="328" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <textInputTraits key="textInputTraits"/>
@@ -180,7 +180,7 @@
                                 </constraints>
                                 <state key="normal" image="image512x512.png"/>
                                 <connections>
-                                    <action selector="toDoAddImageBtn:" destination="n9P-gH-Z2y" eventType="touchUpInside" id="G9a-Le-SJr"/>
+                                    <action selector="toDoAddImageBtn:" destination="n9P-gH-Z2y" eventType="touchUpInside" id="Fqe-Ab-HoM"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -242,7 +242,7 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="Cqg-pa-b8e">
-                                    <rect key="frame" x="0.0" y="0.0" width="336" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="328" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <animations/>
                                     <textInputTraits key="textInputTraits"/>

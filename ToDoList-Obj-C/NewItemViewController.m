@@ -31,6 +31,10 @@
     self.gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBackground)];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+    
+    self.imagePicker = [[UIImagePickerController alloc] init];
+    self.imagePicker.delegate = self;
+    self.imagePicker.allowsEditing = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,7 +88,70 @@
 }
 
 - (IBAction)toDoAddImageBtn:(id)sender {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:@"Photo source"
+                                      message:@"Please select your photo source method"
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* cameraRoll = [UIAlertAction
+                             actionWithTitle:@"Choose photo"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 self.imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                                 [self presentViewController:self.imagePicker animated:YES completion:nil];
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+        UIAlertAction* camera = [UIAlertAction
+                             actionWithTitle:@"Take photo"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                 [self presentViewController:self.imagePicker animated:YES completion:nil];
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:@"Cancel"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                 }];
+        
+        [alert addAction:cameraRoll];
+        [alert addAction:camera];
+        [alert addAction:cancel];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+    } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        self.imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:self.imagePicker animated:YES completion:nil];
+    } else
+        [self callAlertViewWithTitle:@"Error" andMessage:@"Camera is not available in this device"];
     
+}
+
+#pragma mark UIImagePickerControllerdelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    [self.toDoAddImageBtn setImage:image forState:UIControlStateNormal];
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)imagePickerControllerDidCancel: (UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error)
+        [self callAlertViewWithTitle:@"Save failed" andMessage:@"Failed to save image to Photo Album"];
+    /*else
+        [self callAlertViewWithTitle:@"Success" andMessage:@"Image saved to Photo Album"];*/
 }
 
 - (IBAction)toDoStoreNewItemBtn:(id)sender {
@@ -93,7 +160,7 @@
     [self.toDoNewItem setObject:self.toDoDescriptionTextField.text forKey:@"description"];
     [self.toDoNewItem setObject:self.dateString forKey:@"modifiedDate"];
     [self.toDoNewItem setObject:@0 forKey:@"status"];
-    [self.toDoNewItem setObject:@"image512x512.png" forKey:@"image"];
+    [self.toDoNewItem setObject:UIImagePNGRepresentation(self.toDoAddImageBtn.imageView.image) forKey:@"image"];
     if (![self.toDoTitleTextField.text isEqualToString:@""] && ![self.dateString isEqualToString:@""]) {
         if ([toDoBusiness.originList isEqualToString:@"CompletedList"]) {
             if ([[toDoBusiness.existingCompletedItem allKeys] count] != 0)
@@ -142,6 +209,23 @@
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
+}
+
+- (void)callAlertViewWithTitle:(NSString *)title andMessage:(NSString *)message {
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:message
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:@"OK"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                         }];
+    [alert addAction:ok];
 }
 
 @end
